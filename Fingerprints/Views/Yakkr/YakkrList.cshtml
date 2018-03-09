@@ -18,6 +18,12 @@
 
 @section MainContentHolder{
     <style>
+
+        #caseNoteNotes p{
+            max-height:200px;
+            overflow:auto;
+        }
+
         .form-group-al {
             margin: auto;
         }
@@ -1027,7 +1033,7 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="addn-poup-div1">
-                                <p id="caseNoteNotes">Case Note</p>
+                                <p id="caseNoteNotes"></p>
                             </div>
                         </div>
                     </div>
@@ -1759,11 +1765,19 @@
                                 if(data.AttachmentIdArray.length>0)
                                 {
                                     $.each(data.AttachmentIdArray, function (i, attach) {
-
-                                        attachmentDiv+="<a target='_blank' title='Click here to download' href='" + HostedDir + "/Agencyuser/getpdfimage1/" + attach + ",CaseNote,0'><i class='fa fa-download download-ic' style='font-size:18px!important;'></i></a>&nbsp;&nbsp;&nbsp;&nbsp;"
-                                        //attachmentDiv+='<a target="_blank" accesskey='+attach+'  title="Click here to download" href="#"><i class="fa fa-download download-ic"></i></a>'
+                                        if (attach != '0')
+                                        {
+                                            attachmentDiv += "<a target='_blank' title='Click here to download' href='" + HostedDir + "/Agencyuser/getpdfimage1/" + attach + ",CaseNote,0'><i class='fa fa-download download-ic' style='font-size:18px!important;'></i></a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                                            //attachmentDiv+='<a target="_blank" accesskey='+attach+'  title="Click here to download" href="#"><i class="fa fa-download download-ic"></i></a>'
+                                        }
+                                        
                                     });
 
+                                }
+                                else {
+                                    attachmentDiv = '<div class="addn-poup-div1">\
+                                <p>Not Available</p>\
+                            </div>';
                                 }
                               $('#attachements_div').html(attachmentDiv)
                             }

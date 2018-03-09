@@ -527,6 +527,12 @@
             window.location.href = url;
             //$('#spinner').hide();
         }
+        function AgencyAdminAcceptance() {
+            $('#spinner').show();
+            var url = HostedDir + '/AgencyAdmin/Acceptance';
+            window.location.href = url;
+            //$('#spinner').hide();
+        } 
         function AgencyAdminSlots() {
             $('#spinner').show();
             var url = HostedDir + '/AgencyAdmin/Slots';
@@ -747,7 +753,7 @@
                                     <li><a id="li8" onclick="CenterBasedHistorical();" href="#">Center Based Historical</a></li>
                                     <li>
                                         <a id="Yakkr" onclick="YakkrYakkr();" href="#">
-                                            <i class="fa fa-dashboard fa-fw"></i> Yakkr
+                                            <i class="fa fa-dashboard fa-fw"></i> Yakkr Mappings
                                         </a>
                                     </li>
 
@@ -785,6 +791,7 @@
                                     <li> <a id="Holiday" href="~/Home/AttendanceType"><i class="fa fa-check-square"></i> Attendance Types</a> </li>
                                     <li> <a id="Holiday" href="~/InKind/InKindActivities"><i class="fa fa-bar-chart"></i> Inkind Activity</a> </li>
                                     <li> <a id="viewDevelopmental" onclick="AgencyAdminDemographic();" href="#"><i class="fa fa-pie-chart"></i> Demographic Roles</a> </li>
+                                    <li> <a id="viewDevelopmental" onclick="AgencyAdminAcceptance();" href="#"><i class="fa fa-pie-chart"></i> Acceptance Process Roles</a> </li>
 
                                 </ul>
                             </li>
@@ -827,10 +834,14 @@
                             </li>
 
                         }
-                        <li> <a id="lireport" href="~/Yakkr/YakkrDetails"><i class="fa fa-dashboard fa-fw"></i>YakkrList(@Fingerprints.Utilities.Helper.GetYakkrCountByUserId(Session["UserID"].ToString(), Session["AgencyID"].ToString()))</a> </li>
+                        <li> <a id="lireport" href="~/Yakkr/YakkrDetails"><i class="fa fa-dashboard fa-fw"></i>Yakkr(@Fingerprints.Utilities.Helper.GetYakkrCountByUserId(Session["UserID"].ToString(), Session["AgencyID"].ToString()))</a> </li>
                         @if (Convert.ToBoolean(Session["IsDemographic"].ToString()))
                         {
                             <li><a id="IsDemographic" href="~/AgencyUser/DemographicPercentage"><i class="fa fa-android fa-fw"></i>Demographic Seciton</a></li>
+                        }
+                        @if (Convert.ToBoolean(Session["IsAcceptance"].ToString()))
+                        {
+                            <li><a id="IsAcceptance" href="~/AgencyUser/AcceptanceProcess"><i class="fa fa-android fa-fw"></i>Acceptance Process</a></li>
                         }
                         @if (Convert.ToBoolean(Session["IsCoreTeam"].ToString()))
                         {

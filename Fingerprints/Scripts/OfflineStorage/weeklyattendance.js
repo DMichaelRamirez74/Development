@@ -2538,7 +2538,10 @@ $(document).ready(function () {
                     attendanceString.val('');
                     attendanceString.val(data.WeeklyAttendancestring);
                     childAttendanceJson = JSON.parse(data.WeeklyAttendancestring);
-                    DataBaseManager.GetAllClient(setTableOnDateChange);
+                    childString.val(data.ChildInfoString);
+                    childInfoJson = JSON.parse(data.ChildInfoString);
+                    //DataBaseManager.GetAllClient(setTableOnDateChange);
+                    loadWeeklyDailyAttendance();
                 },
                 error: function (data) {
                     DataBaseManager.GetAllClient(setTableOnDateChange);

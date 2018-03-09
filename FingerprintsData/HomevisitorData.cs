@@ -456,8 +456,9 @@ namespace FingerprintsData
                 _dataset = new DataSet();
                 DataAdapter = new SqlDataAdapter(command);
                 DataAdapter.Fill(_dataset);
-
+                Connection.Close();
                 schedular = new Scheduler();
+                schedular.ScheduledAppointment = new Scheduler();
                 schedular.ParentDetailsList = new List<ParentDetails>();
                 if (_dataset != null)
                 {
@@ -488,6 +489,23 @@ namespace FingerprintsData
                                                            ClientId = dr1["ClientId"].ToString()
                                                        }
                                                      ).ToList();
+                    }
+
+                    if(_dataset.Tables.Count>2 && _dataset.Tables[2].Rows.Count>0)
+                    {
+                        schedular.ScheduledAppointment = (from DataRow dr2 in _dataset.Tables[2].Rows
+                                     select new Scheduler
+                                     {
+                                         ClientId = Convert.ToInt64(dr2["ClientId"]),
+                                         MeetingDate = Convert.ToString(dr2["MeetingDate"]),
+                                         StartTime = Convert.ToString(dr2["StartTime"]),
+                                         EndTime = Convert.ToString(dr2["EndTime"]),
+                                         Duration = Convert.ToString(dr2["Duration"]),
+                                         IsRepeat = Convert.ToBoolean(dr2["IsRecurring"]),
+                                         Day = Convert.ToString(dr2["Day"]),
+                                         MeetingId = Convert.ToInt64(dr2["ID"])
+                                     }
+                                   ).ToList()[0];
                     }
                 }
 
@@ -697,7 +715,7 @@ namespace FingerprintsData
                     , item.Date
                     , item.AgencyId
                     , item.Duration
-                    , true
+                    , item.IsRepeat
                     , item.ParentId1
                     , item.ParentId2
                     , 1

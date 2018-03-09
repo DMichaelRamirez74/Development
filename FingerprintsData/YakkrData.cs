@@ -436,9 +436,9 @@ namespace FingerprintsData
             }
             return listDetail;
         }
-        
 
-        public List<YakkrClientDetail> GetYakkrListByCode(Guid AgencyId, Guid UserId, string YakkrCode,string Status)
+
+        public List<YakkrClientDetail> GetYakkrListByCode(Guid AgencyId, Guid UserId, string YakkrCode, string Status)
         {
             List<YakkrClientDetail> listDetail = new List<YakkrClientDetail>();
             try
@@ -460,7 +460,7 @@ namespace FingerprintsData
                 DataAdapter.Fill(_dataset);
                 if (_dataset.Tables[0] != null)
                 {
-                    if (_dataset.Tables[0].Rows.Count > 0 && YakkrCode!="750")
+                    if (_dataset.Tables[0].Rows.Count > 0 && YakkrCode != "750")
                     {
                         foreach (DataRow dr in _dataset.Tables[0].Rows)
                         {
@@ -477,12 +477,12 @@ namespace FingerprintsData
                                 FromUserID = !string.IsNullOrEmpty(dr["FromUserID"].ToString()) ? dr["FromUserID"].ToString() : "",
                                 YakkrID = !string.IsNullOrEmpty(dr["YakkrId"].ToString()) ? dr["YakkrId"].ToString() : "",
                                 CenterId = !string.IsNullOrEmpty(dr["CenterId"].ToString()) ? dr["CenterId"].ToString() : "",
-                                _EncCenterId= !string.IsNullOrEmpty(dr["CenterId"].ToString()) ? EncryptDecrypt.Encrypt64(dr["CenterId"].ToString()) : "",
+                                _EncCenterId = !string.IsNullOrEmpty(dr["CenterId"].ToString()) ? EncryptDecrypt.Encrypt64(dr["CenterId"].ToString()) : "",
 
                             });
                         }
                     }
-                    else if(_dataset.Tables[0].Rows.Count > 0)
+                    else if (_dataset.Tables[0].Rows.Count > 0)
                     {
                         foreach (DataRow dr in _dataset.Tables[0].Rows)
                         {
@@ -490,7 +490,7 @@ namespace FingerprintsData
                             {
                                 YakkrCode = !string.IsNullOrEmpty(dr["YakkrCode"].ToString()) ? dr["YakkrCode"].ToString() : "",
                                 YakkrID = !string.IsNullOrEmpty(dr["YakkrId"].ToString()) ? dr["YakkrId"].ToString() : "",
-                               Slots= !string.IsNullOrEmpty(dr["Slots"].ToString()) ? dr["Slots"].ToString() : "",
+                                Slots = !string.IsNullOrEmpty(dr["Slots"].ToString()) ? dr["Slots"].ToString() : "",
                                 Date = !string.IsNullOrEmpty(dr["Date"].ToString()) ? Convert.ToDateTime(dr["Date"]).ToString("MM/dd/yyyy") : "N/A",
 
                             });
@@ -656,6 +656,7 @@ namespace FingerprintsData
                         casenote.Note = _dataset.Tables[0].Rows[0]["Notes"].ToString();
                         casenote.CaseNotetitle = _dataset.Tables[0].Rows[0]["Title"].ToString();
                         casenote.AttachmentIdArray = (from DataRow dr1 in _dataset.Tables[0].Rows
+                                                      where Convert.ToInt32(dr1["AttachmentId"].ToString())>0
                                                       select dr1["AttachmentId"].ToString()
                                                     ).ToArray();
 

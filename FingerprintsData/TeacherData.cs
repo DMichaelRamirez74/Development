@@ -2153,11 +2153,12 @@ namespace FingerprintsData
             List<OfflineAttendance> teacherList = new List<OfflineAttendance>();
             try
             {
+                StaffDetails staffDetails = StaffDetails.GetInstance();
                 SqlConnection Connection = connection.returnConnection();
                 SqlCommand command = new SqlCommand();
                 SqlDataAdapter DataAdapter = null;
                 DataSet _dataset = null;
-
+                model.Itemlst = new List<TeacherModel>();
 
                 command.Connection = Connection;
                 command.Parameters.Clear();
@@ -2166,6 +2167,7 @@ namespace FingerprintsData
                 command.Parameters.Add(new SqlParameter("@ClassRoomId", classRoomId));
                 command.Parameters.Add(new SqlParameter("@IsHistorical", isHistorical));
                 command.Parameters.Add(new SqlParameter("@AttendanceDate", attendanceDate));
+                command.Parameters.Add(new SqlParameter("@UserId", staffDetails.UserId));
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandText = "USP_GetClientAttendanceByAttendanceDate";
                 DataAdapter = new SqlDataAdapter(command);
@@ -2202,6 +2204,30 @@ namespace FingerprintsData
                                    }
                              ).ToList();
 
+                }
+
+                if (_dataset.Tables[1].Rows.Count > 0)
+                {
+                    model.Itemlst = (from DataRow dr1 in _dataset.Tables[1].Rows
+                              select new TeacherModel
+                              {
+                                  ClientID = Convert.ToString(dr1["ClientID"]),
+                                  Enc_ClientId = EncryptDecrypt.Encrypt64(dr1["ClientID"].ToString()),
+                                  CName = Convert.ToString(dr1["Firstname"]) + " " + Convert.ToString(dr1["Lastname"]),
+                                  CDOB = Convert.ToDateTime(dr1["DOB"]).ToString("MM/dd/yyyy"),
+                                  CenterID = dr1["CenterId"].ToString(),
+                                  Enc_CenterId = EncryptDecrypt.Encrypt64(dr1["CenterID"].ToString()),
+                                  ClassID = dr1["ClassRoomId"].ToString(),
+                                  Enc_ClassRoomId = EncryptDecrypt.Encrypt64(dr1["ClassRoomId"].ToString()),
+                                  Parent1ID = dr1["FatherId"].ToString(),
+                                  Parent2ID = dr1["MotherId"].ToString(),
+                                  Parent1Name = dr1["FatherName"].ToString(),
+                                  Parent2Name = dr1["MotherName"].ToString()
+                              }
+
+
+
+                            ).ToList();
                 }
 
                 model.WeeklyAttendance = teacherList;

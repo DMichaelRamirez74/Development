@@ -80,6 +80,10 @@ namespace FingerprintsData
 
             try
             {
+                if (Connection.State == ConnectionState.Open)
+                    Connection.Close();
+
+                command.Parameters.Clear();
                 command.Parameters.Add(new SqlParameter("@Agencyid", AgencyId));
                 command.Parameters.Add(new SqlParameter("@userid", UserId));
                 command.Parameters.Add(new SqlParameter("@clientid", id));
@@ -88,9 +92,11 @@ namespace FingerprintsData
                 command.Connection = Connection;
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandText = "SP_Getcasenotes";
+                Connection.Open();
                 DataAdapter = new SqlDataAdapter(command);
                 _dataset = new DataSet();
                 DataAdapter.Fill(_dataset);
+                Connection.Close();
                 if (_dataset.Tables[0] != null)
                 {
                     if (_dataset.Tables[0].Rows.Count > 0)
@@ -553,7 +559,7 @@ namespace FingerprintsData
 
         }
         //Changes on 30Dec2016
-        public Roster GetrosterList(out string totalrecord, string sortOrder, string sortDirection, string Center, string Classroom, int skip, int pageSize, string userid, string agencyid, string roleId, int filterOption,string searchText="")
+        public Roster GetrosterList(out string totalrecord, string sortOrder, string sortDirection, string Center, string Classroom, int skip, int pageSize, string userid, string agencyid, string roleId, int filterOption, string searchText = "")
         {
             Roster _roster = new Roster();
             List<Roster> RosterList = new List<Roster>();
@@ -580,7 +586,7 @@ namespace FingerprintsData
                 command.Connection = Connection;
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandText = "SP_rosterList";
-              // command.CommandText = "SP_rosterList_Test_02_05_2018";
+                // command.CommandText = "SP_rosterList_Test_02_05_2018";
                 DataAdapter = new SqlDataAdapter(command);
                 _dataset = new DataSet();
                 DataAdapter.Fill(_dataset);
@@ -670,7 +676,7 @@ namespace FingerprintsData
 
                                          ).Distinct().ToList();
 
-                      //  _roster.Rosters = RosterList;
+                        //  _roster.Rosters = RosterList;
                     }
                 }
 
@@ -694,11 +700,11 @@ namespace FingerprintsData
                     if (_dataset.Tables[1].Rows.Count > 0)
                     {
                         _roster.AbsenceTypeList = (from DataRow dr5 in _dataset.Tables[1].Rows
-                                                     select new SelectListItem
-                                                     {
-                                                         Text = dr5["Description"].ToString(),
-                                                         Value = dr5["AttendanceTypeId"].ToString()
-                                                     }).ToList();
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = dr5["Description"].ToString(),
+                                                       Value = dr5["AttendanceTypeId"].ToString()
+                                                   }).ToList();
 
                     }
                 }
@@ -708,11 +714,11 @@ namespace FingerprintsData
                     if (_dataset.Tables[2].Rows.Count > 0)
                     {
                         _roster.AbsenceReasonList = (from DataRow dr5 in _dataset.Tables[2].Rows
-                                                       select new SelectListItem
-                                                       {
-                                                           Text = dr5["absenseReason"].ToString(),
-                                                           Value = dr5["reasonid"].ToString()
-                                                       }).ToList();
+                                                     select new SelectListItem
+                                                     {
+                                                         Text = dr5["absenseReason"].ToString(),
+                                                         Value = dr5["reasonid"].ToString()
+                                                     }).ToList();
 
                     }
                 }
@@ -732,7 +738,7 @@ namespace FingerprintsData
                                   }
                               ).ToList();
                     closedList = closedList.Where(x => x.ClosedToday > 0).ToList();
-                    if(closedList.Count()>0)
+                    if (closedList.Count() > 0)
                     {
                         _roster.ClosedDetails = new ClosedInfo
                         {
@@ -768,10 +774,10 @@ namespace FingerprintsData
 
 
 
-        public void MarkAbsent(ref string result, string ChildID, string UserID, string absentType, string Cnotes, string agencyid, int AbsentReasonid,string NewReason)
+        public void MarkAbsent(ref string result, string ChildID, string UserID, string absentType, string Cnotes, string agencyid, int AbsentReasonid, string NewReason)
         {
 
-        
+
             try
             {
                 result = "";
@@ -968,9 +974,9 @@ namespace FingerprintsData
                     command.Parameters.AddWithValue("@SignatureData", null);
                 }
 
-                if (info.GoalSteps== null && info.GoalSteps.Count == 0)
+                if (info.GoalSteps == null && info.GoalSteps.Count == 0)
                 {
-                    
+
 
                     foreach (FPASteps steps in info.GoalSteps)
                     {
@@ -2178,7 +2184,7 @@ namespace FingerprintsData
                 {
                     string DeleteParameter = "DELETE";
                     int Mode = 2;
-                  //  CheckByClient(DeleteParameter, Mode);
+                    //  CheckByClient(DeleteParameter, Mode);
                 }
                 return strresult;
             }
@@ -3202,65 +3208,66 @@ namespace FingerprintsData
             List<MatrixScore> listMatrix = new List<MatrixScore>();
             List<ParentNames> ParentList = new List<ParentNames>();
             ParentNames Names = new ParentNames();
-            try { 
-            List<long> catelst = new List<long>();
-            string querycommand = "SELECT";
-            command.Connection = Connection;
-            command.CommandText = "SP_MatrixScore";
-            command.Parameters.Clear();
-            command.Parameters.AddWithValue("@AgencyId", agencyId);
-            command.Parameters.AddWithValue("@HouseHoldId", Householdid);
-            command.Parameters.AddWithValue("@ClientId", clientId);
-            command.Parameters.AddWithValue("@ProgramId", programId);
-            command.Parameters.AddWithValue("@Command", querycommand);
-            command.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            da.Fill(ds);
-            if (ds.Tables[0].Rows.Count > 0)
+            try
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                List<long> catelst = new List<long>();
+                string querycommand = "SELECT";
+                command.Connection = Connection;
+                command.CommandText = "SP_MatrixScore";
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@AgencyId", agencyId);
+                command.Parameters.AddWithValue("@HouseHoldId", Householdid);
+                command.Parameters.AddWithValue("@ClientId", clientId);
+                command.Parameters.AddWithValue("@ProgramId", programId);
+                command.Parameters.AddWithValue("@Command", querycommand);
+                command.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                da.Fill(ds);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+
+                        catelst.Add(Convert.ToInt64(dr["AssessmentCategoryId"]));
+                    }
+                    MatrixScore.CategoryIdList = catelst;
+                }
+                if (ds.Tables[1].Rows.Count > 0)
                 {
 
-                    catelst.Add(Convert.ToInt64(dr["AssessmentCategoryId"]));
+
+                    foreach (DataRow dr in ds.Tables[1].Rows)
+                    {
+
+                        matrixScore = new MatrixScore();
+                        matrixScore.AssessmentCategoryId = Convert.ToInt64(dr["AssessmentCategoryId"]);
+                        matrixScore.AssessmentGroupId = Convert.ToInt64(dr["AssessmentGroupId"]);
+                        matrixScore.AssessmentGroupType = dr["AssessmentGroupType"].ToString();
+                        matrixScore.AnnualAssessmentType = Convert.ToInt64(dr["AnnualAssessmentType"]);
+                        matrixScore.AssessmentCategory = dr["Category"].ToString();
+                        matrixScore.ClassRoomId = Convert.ToInt64(dr["ClassroomID"]);
+                        matrixScore.ProgramType = dr["ProgramType"].ToString();
+                        matrixScore.ActiveYear = dr["ActiveProgramYear"].ToString();
+                        listMatrix.Add(matrixScore);
+
+                    }
+                    MatrixScore.MatrixScoreList = listMatrix;
+
                 }
-                MatrixScore.CategoryIdList = catelst;
-            }
-            if (ds.Tables[1].Rows.Count > 0)
-            {
-
-
-                foreach (DataRow dr in ds.Tables[1].Rows)
+                if (ds.Tables[2] != null && ds.Tables[2].Rows.Count > 0)
                 {
-
-                    matrixScore = new MatrixScore();
-                    matrixScore.AssessmentCategoryId = Convert.ToInt64(dr["AssessmentCategoryId"]);
-                    matrixScore.AssessmentGroupId = Convert.ToInt64(dr["AssessmentGroupId"]);
-                    matrixScore.AssessmentGroupType = dr["AssessmentGroupType"].ToString();
-                    matrixScore.AnnualAssessmentType = Convert.ToInt64(dr["AnnualAssessmentType"]);
-                    matrixScore.AssessmentCategory = dr["Category"].ToString();
-                    matrixScore.ClassRoomId = Convert.ToInt64(dr["ClassroomID"]);
-                    matrixScore.ProgramType = dr["ProgramType"].ToString();
-                    matrixScore.ActiveYear = dr["ActiveProgramYear"].ToString();
-                    listMatrix.Add(matrixScore);
-
+                    foreach (DataRow dr in ds.Tables[2].Rows)
+                    {
+                        Names = new ParentNames();
+                        Names.ParentID = Convert.ToInt32(dr["parentid"]);
+                        Names.ParentName = dr["ParentName"].ToString();
+                        Names.ParentInvolved = DBNull.Value == dr["ParentInvolved"] ? 0 : Convert.ToInt32(dr["ParentInvolved"]);
+                        ParentList.Add(Names);
+                    }
+                    MatrixScore.ParentList = ParentList;
                 }
-                MatrixScore.MatrixScoreList = listMatrix;
-
             }
-            if (ds.Tables[2] != null && ds.Tables[2].Rows.Count > 0)
-            {
-                foreach (DataRow dr in ds.Tables[2].Rows)
-                {
-                    Names = new ParentNames();
-                    Names.ParentID = Convert.ToInt32(dr["parentid"]);
-                    Names.ParentName = dr["ParentName"].ToString();
-                    Names.ParentInvolved = DBNull.Value==dr["ParentInvolved"]?0:Convert.ToInt32(dr["ParentInvolved"]);
-                    ParentList.Add(Names);
-                }
-                MatrixScore.ParentList = ParentList;
-            }
-        }
-              catch (Exception ex)
+            catch (Exception ex)
             {
                 clsError.WriteException(ex);
 
@@ -4176,7 +4183,7 @@ namespace FingerprintsData
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        
+
                         attendence.AttendenceDate = Convert.ToDateTime(dr["AttendanceDate"]);
                         attendence.AttendenceStatus = dr["AttendenceType"].ToString();
                         attendence.Center = Convert.ToString(dr["CenterName"]);
@@ -4209,8 +4216,8 @@ namespace FingerprintsData
             }
             return attendence;
         }
-		
-		 public bool SaveProgramInformationReport(int ProgramTypeId, string ProgramType, bool FamilyAssessment, bool FamilyGoalSetting, bool ChildHS, bool PolicyCouncil, bool WorkShops, string ActiveProgramYear, string AgencyId,int EventRegCount=0)
+
+        public bool SaveProgramInformationReport(int ProgramTypeId, string ProgramType, bool FamilyAssessment, bool FamilyGoalSetting, bool ChildHS, bool PolicyCouncil, bool WorkShops, string ActiveProgramYear, string AgencyId, int EventRegCount = 0)
         {
             bool isInserted = false;
             try
@@ -4340,7 +4347,7 @@ namespace FingerprintsData
             try
             {
 
-           
+
 
                 switch (Transition.Transition.TrnsInsuranceType)
                 {
@@ -4417,8 +4424,8 @@ namespace FingerprintsData
 
                     command.CommandType = CommandType.StoredProcedure;
 
-                    if(objChild.DOB!=null)
-                     dateOfBirth = Convert.ToDateTime(objChild.DOB).ToString("yyyy-MM-dd");
+                    if (objChild.DOB != null)
+                        dateOfBirth = Convert.ToDateTime(objChild.DOB).ToString("yyyy-MM-dd");
 
                     command.Parameters.Add(new SqlParameter("@ClientId", Transition.Transition.ClientId));
                     command.Parameters.Add(new SqlParameter("@ProgramTypeId", Transition.Transition.ProgramTypeId));
@@ -4453,8 +4460,8 @@ namespace FingerprintsData
                     command.Parameters.Add(new SqlParameter("@NoIns_S_C2", Transition.Transition.NoIns_S_C2));
                     command.Parameters.Add(new SqlParameter("@NoIns_E_C2", Transition.Transition.NoIns_E_C2));
 
-                   
-                    if(i==1)
+
+                    if (i == 1)
                     {
                         command.Parameters.Add(new SqlParameter("@PregActiveRecCode", Transition.Transition.TrnsInsuranceType));
                         command.Parameters.Add(new SqlParameter("@MedicaidCHIP_S_C3A1", Transition.Transition.MedicaidCHIP_S_C3A1));
@@ -4482,10 +4489,10 @@ namespace FingerprintsData
 
                     int RowsAffected = command.ExecuteNonQuery();
                     seats.Result = Convert.ToInt32((DBNull.Value == command.Parameters["@Result"].Value) ? 0 : command.Parameters["@Result"].Value);
-                    seats.SeatAvailable = Convert.ToInt32((DBNull.Value == command.Parameters["@SeatCount"].Value) ? 0: command.Parameters["@SeatCount"].Value);
+                    seats.SeatAvailable = Convert.ToInt32((DBNull.Value == command.Parameters["@SeatCount"].Value) ? 0 : command.Parameters["@SeatCount"].Value);
                     seats.SloatAvailable = Convert.ToInt32((DBNull.Value == command.Parameters["@SlotCount"].Value) ? 0 : command.Parameters["@SlotCount"].Value);
                     seats.ChildName = objChild.Name;
-                    AvailabilityList.Add(seats);                                       
+                    AvailabilityList.Add(seats);
                     i++;
 
                     Connection.Close();
@@ -4493,7 +4500,7 @@ namespace FingerprintsData
             }
             catch (Exception ex)
             {
-                 clsError.WriteException(ex);
+                clsError.WriteException(ex);
             }
             finally
             {
@@ -4546,7 +4553,7 @@ namespace FingerprintsData
 
         }
 
-        public bool SaveHeadStartTranstion(Transition Transition, string AgencyId,string UserId)
+        public bool SaveHeadStartTranstion(Transition Transition, string AgencyId, string UserId)
         {
             bool isInserted = false;
             int resultValue = 0;
@@ -4619,7 +4626,7 @@ namespace FingerprintsData
                 command.Connection = Connection;
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandText = "USP_InsertHeadStartTransition";
-                
+
                 Object Result = command.ExecuteScalar();
                 if (Result != null)
                     resultValue = Convert.ToInt32(Result);
@@ -4642,17 +4649,17 @@ namespace FingerprintsData
         }
 
 
-        public string GetAvailablitySetsByClass(string CenterId,string ClassRoomId, string Agencyid,string ClientId)
+        public string GetAvailablitySetsByClass(string CenterId, string ClassRoomId, string Agencyid, string ClientId)
         {
             string availableSeats = "0";
             try
             {
-                int id= string.IsNullOrEmpty(ClientId) ? 0 : Convert.ToInt32(ClientId);
+                int id = string.IsNullOrEmpty(ClientId) ? 0 : Convert.ToInt32(ClientId);
                 command.Parameters.Clear();
                 command.Parameters.Add(new SqlParameter("@CenterId", CenterId));
                 command.Parameters.Add(new SqlParameter("@ClassRoomId", ClassRoomId));
                 command.Parameters.Add(new SqlParameter("@Agencyid", Agencyid));
-                command.Parameters.Add(new SqlParameter("@ClientId",id ));
+                command.Parameters.Add(new SqlParameter("@ClientId", id));
                 command.Connection = Connection;
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandText = "USP_TotalAvailabilitySeatsByAgencyId";
@@ -4661,7 +4668,7 @@ namespace FingerprintsData
                 DataAdapter.Fill(_dataset);
                 if (_dataset != null && _dataset.Tables.Count > 0)
                 {
-                   
+
                     foreach (DataRow dr in _dataset.Tables[0].Rows)
                     {
                         availableSeats = dr["AvailableSets"].ToString() == null ? "0" : dr["AvailableSets"].ToString();
@@ -4681,12 +4688,12 @@ namespace FingerprintsData
         }
 
 
-        public Roster GetCenterAndClassRoomsByCenter(string centerid, string Classroom, string householdid ,string ChildId,string userid, string agencyid)
+        public Roster GetCenterAndClassRoomsByCenter(string centerid, string Classroom, string householdid, string ChildId, string userid, string agencyid)
         {
-           Roster RosterList = new Roster();
-           List<CenterAndClassRoom> CenterAndClassRoom = new List<CenterAndClassRoom>();
-           List<CaseNoteDetails> CaseNoteDetails = new List<CaseNoteDetails>();
-          
+            Roster RosterList = new Roster();
+            List<CenterAndClassRoom> CenterAndClassRoom = new List<CenterAndClassRoom>();
+            List<CaseNoteDetails> CaseNoteDetails = new List<CaseNoteDetails>();
+
             try
             {
                 command.Parameters.Add(new SqlParameter("@Agencyid", agencyid));
@@ -4712,7 +4719,7 @@ namespace FingerprintsData
                             centerAndClassRoom = new CenterAndClassRoom();
                             centerAndClassRoom.Name = dr["ClientName"].ToString();
                             centerAndClassRoom.Eclientid = dr["ClientID"].ToString();
-                            
+
                             if (dr["IsChild"].ToString() == "True")
                             {
                                 centerAndClassRoom.clientenrolled = "Child";
@@ -4758,7 +4765,7 @@ namespace FingerprintsData
         }
 
 
-        public bool SaveCenterAndClassRoom(string ClientId, string DateOfTransition,string CenterId,string ClassRoomId, string AgencyId, string UserId,int ReasonID,string NewReason)
+        public bool SaveCenterAndClassRoom(string ClientId, string DateOfTransition, string CenterId, string ClassRoomId, string AgencyId, string UserId, int ReasonID, string NewReason)
         {
             bool isInserted = false;
             int resultValue = 0;
@@ -4796,7 +4803,7 @@ namespace FingerprintsData
                 Connection.Open();
 
                 command.Parameters.Clear();
-           
+
 
             }
             catch (Exception ex)
@@ -4937,7 +4944,7 @@ namespace FingerprintsData
 
         }
 
-        public int InsertParentDetailsMatrixScore(MatrixScore matrixScore,string agencyid,string userid)
+        public int InsertParentDetailsMatrixScore(MatrixScore matrixScore, string agencyid, string userid)
         {
             int isaffected = 0;
             try
@@ -4956,16 +4963,16 @@ namespace FingerprintsData
                 command.Parameters.Add(new SqlParameter("@ProgramType", matrixScore.ProgramType));
                 command.Parameters.Add(new SqlParameter("@TableID", matrixScore.Id));
                 command.Parameters.Add(new SqlParameter("@ParentID", matrixScore.ParentId));
-                command.Parameters.Add(new SqlParameter("@ClientId", EncryptDecrypt.Decrypt64( matrixScore.@ClientId)));
+                command.Parameters.Add(new SqlParameter("@ClientId", EncryptDecrypt.Decrypt64(matrixScore.@ClientId)));
                 command.Parameters.Add(new SqlParameter("@UserId", userid));
                 command.Parameters.Add(new SqlParameter("@ProgramId", matrixScore.Dec_ProgramId));
                 command.Parameters.Add(new SqlParameter("@IsChecked", matrixScore.IsChecked));
                 command.CommandText = "SP_InsertParentDetails_Assessmnt";
                 // SqlDataAdapter da = new SqlDataAdapter(command);
-                isaffected=command.ExecuteNonQuery();
-                
+                isaffected = command.ExecuteNonQuery();
 
-               
+
+
 
             }
             catch (Exception ex)
@@ -4980,6 +4987,61 @@ namespace FingerprintsData
             }
             return isaffected;
         }
+
+
+        public List<SelectListItem> GetCaseNoteTagsonInput(string searchText)
+        {
+
+            List<SelectListItem> tagsList = new List<SelectListItem>();
+            try
+            {
+                StaffDetails staffDetails = StaffDetails.GetInstance();
+
+                if (Connection.State == ConnectionState.Open)
+                    Connection.Close();
+
+                using (Connection)
+                {
+
+                    command.Connection = Connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Clear();
+                    command.Parameters.Add(new SqlParameter("@AgencyId", staffDetails.AgencyId));
+                    command.Parameters.Add(new SqlParameter("@UserId", staffDetails.UserId));
+                    command.Parameters.Add(new SqlParameter("@RoleId", staffDetails.RoleId));
+                    command.Parameters.Add(new SqlParameter("@SearchText", searchText));
+                    command.CommandText = "USP_GetCaseNoteTagsBytext";
+                    Connection.Open();
+                    DataAdapter = new SqlDataAdapter(command);
+                    _dataset = new DataSet();
+                    DataAdapter.Fill(_dataset);
+                    Connection.Close();
+                }
+
+                if(_dataset!=null && _dataset.Tables[0].Rows.Count>0)
+                {
+                    tagsList = (from DataRow dr1 in _dataset.Tables[0].Rows
+                                select new SelectListItem
+                                {
+                                    Text = dr1["TagName"].ToString(),
+                                    Value = dr1["TagKey"].ToString()
+                                }
+                              ).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                clsError.WriteException(ex);
+            }
+            finally
+            {
+                Connection.Dispose();
+                DataAdapter.Dispose();
+                _dataset.Dispose();
+            }
+            return tagsList;
+        }
+
 
     }
 }

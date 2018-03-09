@@ -95,7 +95,7 @@
     <Compile Include="CompleteUrl.cs" />
     <Compile Include="DailySaftyCheckImages.cs" />
     <Compile Include="DaysOff.cs" />
-    <Compile Include="DemographicPercentages.cs" />
+    <Compile Include="DemographicPercentage.cs" />
     <Compile Include="DisabilityChildren.cs" />
     <Compile Include="DisableNotes.cs" />
     <Compile Include="Disablities_Type.cs" />
@@ -172,9 +172,11 @@
     <Compile Include="YakkrRouting.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="mssccprj.scc" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FingerprintsModel.csproj.vspscc" />
     <Content Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />

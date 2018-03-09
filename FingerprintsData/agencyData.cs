@@ -3104,7 +3104,7 @@ namespace FingerprintsData
                             obj.RoleName = dr["Rolename"].ToString();
                             obj.IsDemographic = Convert.ToBoolean(dr["IsDemographic"]);
                             // obj.UserColor = string.IsNullOrEmpty(dr["UserColor"].ToString())?"#ffffff": dr["iscoreteam"].ToString();
-                            obj.UserColor = dr["UserColor"].ToString();
+                           // obj.UserColor = dr["UserColor"].ToString();
                             _DemographicList.Add(obj);
                         }
                     }
@@ -3120,6 +3120,49 @@ namespace FingerprintsData
                     Connection.Close();
             }
             return _DemographicList;
+        }
+
+        public List<AcceptanceProcess> GetAcceptanceProcess(string AgencyId, string UserId)
+        {
+            List<AcceptanceProcess> _AcceptanceProcessList = new List<AcceptanceProcess>();
+            try
+            {
+                command.Parameters.Add(new SqlParameter("@Agencyid", AgencyId));
+                command.Parameters.Add(new SqlParameter("@userid", UserId));
+                command.Connection = Connection;
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "SP_GetAcceptanceProcess";
+                DataAdapter = new SqlDataAdapter(command);
+                _dataset = new DataSet();
+                DataAdapter.Fill(_dataset);
+                if (_dataset.Tables[0] != null)
+                {
+                    if (_dataset.Tables[0].Rows.Count > 0)
+                    {
+                        AcceptanceProcess obj = null;
+                        foreach (DataRow dr in _dataset.Tables[0].Rows)
+                        {
+                            obj = new AcceptanceProcess();
+                            obj.RoleId = dr["Roleid"].ToString();
+                            obj.RoleName = dr["Rolename"].ToString();
+                            obj.IsAcceptance = Convert.ToBoolean(dr["IsAcceptance"]);
+                            // obj.UserColor = string.IsNullOrEmpty(dr["UserColor"].ToString())?"#ffffff": dr["iscoreteam"].ToString();
+                            //  obj.UserColor = dr["UserColor"].ToString();
+                            _AcceptanceProcessList.Add(obj);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsError.WriteException(ex);
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+            }
+            return _AcceptanceProcessList;
         }
         public List<CoreTeam> SaveCoreTeam(ref string message, List<CoreTeam> CoreTeams, string AgencyId, string UserId)
         {
@@ -3194,17 +3237,17 @@ namespace FingerprintsData
                 //command.Parameters.Add(new SqlParameter("@UserColor", string.Empty));
                 command.Parameters["@result"].Direction = ParameterDirection.Output;
                 DataTable dt = new DataTable();
-                dt.Columns.AddRange(new DataColumn[3] {
+                dt.Columns.AddRange(new DataColumn[2] {
                     new DataColumn("RoleId", typeof(string)),
-                      new DataColumn("IsDemographic",typeof(bool)),
-                        new DataColumn("UserColor",typeof(string))
+                      new DataColumn("IsDemographic",typeof(bool))
+                      
 
                     });
                 foreach (Demographic Team in Demographics)
                 {
                     if (Team.RoleId != null && Team.IsDemographic)
                     {
-                        dt.Rows.Add(Team.RoleId, Team.IsDemographic, Team.UserColor);
+                        dt.Rows.Add(Team.RoleId, Team.IsDemographic);
 
                     }
                 }
@@ -3243,6 +3286,67 @@ namespace FingerprintsData
                     Connection.Close();
             }
             return _DemographicList;
+        }
+        public List<AcceptanceProcess> SaveAcceptanceProcess(ref string message, List<AcceptanceProcess> AcceptanceProcess, string AgencyId, string UserId)
+        {
+            List<AcceptanceProcess> _AcceptanceProcessList = new List<AcceptanceProcess>();
+            try
+            {
+                command.Parameters.Add(new SqlParameter("@Agencyid", AgencyId));
+                command.Parameters.Add(new SqlParameter("@userid", UserId));
+                command.Parameters.Add(new SqlParameter("@result", string.Empty));
+                //command.Parameters.Add(new SqlParameter("@UserColor", string.Empty));
+                command.Parameters["@result"].Direction = ParameterDirection.Output;
+                DataTable dt = new DataTable();
+                dt.Columns.AddRange(new DataColumn[2] {
+                    new DataColumn("RoleId", typeof(string)),
+                      new DataColumn("IsAcceptance",typeof(bool)),
+                  
+
+                    });
+                foreach (AcceptanceProcess Team in AcceptanceProcess)
+                {
+                    if (Team.RoleId != null && Team.IsAcceptance)
+                    {
+                        dt.Rows.Add(Team.RoleId, Team.IsAcceptance);
+
+                    }
+                }
+                command.Parameters.Add(new SqlParameter("@AcceptanceProcesss", dt));
+                command.Connection = Connection;
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "SP_SaveAcceptanceProcess";
+                DataAdapter = new SqlDataAdapter(command);
+                _dataset = new DataSet();
+                DataAdapter.Fill(_dataset);
+                message = command.Parameters["@result"].Value.ToString();
+                if (_dataset.Tables[0] != null)
+                {
+                    if (_dataset.Tables[0].Rows.Count > 0)
+                    {
+                        AcceptanceProcess obj = null;
+                        foreach (DataRow dr in _dataset.Tables[0].Rows)
+                        {
+                            obj = new AcceptanceProcess();
+                            obj.RoleId = dr["Roleid"].ToString();
+                            obj.RoleName = dr["Rolename"].ToString();
+                            obj.IsAcceptance = Convert.ToBoolean(dr["IsAcceptance"]);
+                            //  obj.UserColor = dr["UserColor"].ToString();
+                            _AcceptanceProcessList.Add(obj);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                clsError.WriteException(ex);
+            }
+            finally
+            {
+                if (Connection != null)
+                    Connection.Close();
+            }
+            return _AcceptanceProcessList;
         }
 
         public AgencySlots GetRefProgram(string Agencyid)

@@ -326,7 +326,15 @@ namespace FingerprintsModel
        
 
     }
+    public class AcceptanceProcess
+    {
+        public string RoleId { get; set; }
+        public string RoleName { get; set; }
+        public bool IsAcceptance { get; set; }
+     
 
+
+    }
     public class Demographic
     {
         public string RoleId { get; set; }

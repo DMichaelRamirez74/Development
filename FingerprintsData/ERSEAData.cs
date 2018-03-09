@@ -1859,12 +1859,14 @@ namespace FingerprintsData
                                                            ParentName = dr1["ParentName"].ToString(),
                                                            Disability = dr1["Disability"].ToString(),
                                                            Gender = dr1["Gender"].ToString(),
-                                                           Dob = Convert.ToDateTime(dr1["DateofBirth"]).ToString("MM/dd/yyyy"),
+                                                           Dob = dr1["DateofBirth"].ToString(),
                                                            CenterName = dr1["CenterName"].ToString(),
                                                            ContactStatus = dr1["ContactStatus"].ToString(),
                                                            YakkrStatus = dr1["YakkrStatus"].ToString(),
                                                            RejectParentId = dr1["RejectParentId"].ToString(),
-                                                           Enc_ClientId=EncryptDecrypt.Encrypt64(dr1["ChildId"].ToString())
+                                                           Enc_ClientId=EncryptDecrypt.Encrypt64(dr1["ChildId"].ToString()),
+                                                           FSWName=dr1["FSWName"].ToString(),
+                                                           StaffUserId=dr1["StaffUserId"].ToString()
                                                        }).ToList();
                     }
                 }
