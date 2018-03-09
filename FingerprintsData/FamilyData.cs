@@ -5598,6 +5598,7 @@ namespace FingerprintsData
                         {
                             familyinfo.OGender = "Other";
                         }
+                        familyinfo.HouseHoldImagejson = familydataTable.Rows[i]["ProfilePic"].ToString() == "" ? "" : Convert.ToBase64String((byte[])familydataTable.Rows[i]["ProfilePic"]);
                         _familyinfo.Add(familyinfo);
                     }
                 }

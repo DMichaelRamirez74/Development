@@ -388,7 +388,7 @@ namespace FingerprintsData
                 Command.Parameters.Add(new SqlParameter("@RoleId", (RoleId)));
                
                 Command.CommandText = "USP_CheckAcceptanceProcess";
-                var obj = Command.ExecuteNonQuery();
+                var obj = Command.ExecuteScalar();
                
                 if (string.IsNullOrEmpty(obj.ToString()))
                 {

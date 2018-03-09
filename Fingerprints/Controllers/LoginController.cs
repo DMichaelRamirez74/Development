@@ -298,6 +298,7 @@ namespace Fingerprints.Controllers
                     Session["MenuEnable"] = UserInfo.MenuEnable;
                     Session["IsCoreTeam"] = false;
                     Session["IsDemographic"] = false;
+                    Session["isAcceptance"] = false;
                     if (UserInfo.AgencyId != null)
                     {
                         Session["AgencyID"] = UserInfo.AgencyId;

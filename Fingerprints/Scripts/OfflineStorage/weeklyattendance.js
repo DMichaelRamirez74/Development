@@ -33,11 +33,6 @@ $(document).ready(function () {
     var historicalRoleArray = [];
     historicalRoleArray = ['b4d86d72-0b86-41b2-adc4-5ccce7e9775b', 'a65bb7c2-e320-42a2-aed4-409a321c08a5', '3b49b025-68eb-4059-8931-68a0577e5fa2'];
 
-
-
-   
-
-
     if (class_para.children('select').length === 0) {
         working_days_div.show();
         off_hist_div.show();
@@ -627,13 +622,14 @@ $(document).ready(function () {
         }
     });
     //On click of attendance type radio//
-    $('input[name=attentyperadio]').on('click', function () {
+    $('#offline-hist-div').find('input[name=attentyperadio]').on('click', function () {
 
-
-
+       
+      //  debugger;
         var center_class = weeklyAttendance.getCenterClassId();
         var attendanceDates = '';
-        if (weeklyAttendance.isHistorical()) {
+        //if (weeklyAttendance.isHistorical()) {
+        if($(this).val()==='1'){
             var weekDates = weeklyAttendance.getWeekDatesFormatted(new Date());
             $.each(weekDates, function (l, dates) {
 
@@ -1241,11 +1237,14 @@ $(document).ready(function () {
 
 
     function checkValidation() {
+       // debugger;
         var error = false;
         if (weeklyAttendance.isHistorical()) {
             weekAttendance_div.find('.day-table').each(function (i, table) {
 
                 $(table).find('.att-tr').each(function (j, row) {
+
+                    
 
                     $(row).find('input[type=radio]:checked').each(function (k, radio) {
 
@@ -3000,9 +2999,6 @@ $(document).ready(function () {
         return dates;
     }
 
-
-
-
     function setTodayDate(date) {
         var formattedDate = '';
         var arr1 = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -3010,9 +3006,6 @@ $(document).ready(function () {
         formattedDate = arr1[date.getDay()] + ' - ' + date.getDate() + ' ' + MonthArr1[date.getMonth()] + ' ' + date.getFullYear();
         return formattedDate;
     }
-
-
-
 
     //callback functions
     function alertCall(data) {

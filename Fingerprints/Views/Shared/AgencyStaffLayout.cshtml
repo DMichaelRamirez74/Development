@@ -1201,10 +1201,10 @@
                             <li> <a id="li1" href="~/Home/Dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> </li>
                             <li> <a id="lireport" href="~/Home/CenterClosure"><i class="fa fa-dashboard fa-fw"></i>Center Closure</a> </li>
                             <li> <a id="lireport" href="~/Yakkr/YakkrDetails"><i class="fa fa-dashboard fa-fw"></i>Yakkr(@Fingerprints.Utilities.Helper.GetYakkrCountByUserId(Session["UserID"].ToString(), Session["AgencyID"].ToString()))</a> </li>
-                            @if (Convert.ToBoolean(Session["IsDemographic"].ToString()))
+                            @*@if (Convert.ToBoolean(Session["IsDemographic"].ToString()))
                             {
                                 <li><a id="IsDemographic" href="~/AgencyUser/DemographicPercentage"><i class="fa fa-android fa-fw"></i>Demographic Seciton</a></li>
-                            }
+                            }*@
                             @if (Convert.ToBoolean(Session["IsAcceptance"].ToString()))
                             {
                                 <li><a id="IsAcceptance" href="~/AgencyUser/AcceptanceProcess"><i class="fa fa-android fa-fw"></i>Acceptance Process</a></li>
