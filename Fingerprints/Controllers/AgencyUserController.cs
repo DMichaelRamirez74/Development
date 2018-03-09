@@ -2902,7 +2902,7 @@ namespace Fingerprints.Controllers
         {
             FamilyHousehold list = new FamilyHousehold();
             ViewBag.tabName = tabName;
-            list.getList = familyData.GetFileCabinet(tabName, Session["AgencyID"].ToString(), houseHoldId);
+           list.getList = familyData.GetFileCabinet(tabName, Session["AgencyID"].ToString(), houseHoldId);
             return PartialView(list);
         }
 
@@ -6213,7 +6213,7 @@ namespace Fingerprints.Controllers
         {
             bool status = false;
             familyData = new FamilyData();
-            //status = familyData.UpdateDateOfBirth(DOB, Clientid);
+            status = familyData.UpdateDateOfBirth(DOB, Clientid);
             return Json(status);
         }
 
@@ -6230,5 +6230,11 @@ namespace Fingerprints.Controllers
                 return Json("Error occured please try again.");
             }
         }
+        public ActionResult AcceptanceProcess()
+        {
+            return View();
+        }
+
+
     }
 }

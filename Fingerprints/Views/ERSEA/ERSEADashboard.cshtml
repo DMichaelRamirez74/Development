@@ -56,6 +56,24 @@
                     table-layout: fixed;
                
                 }
+                .ersea-table thead tr th
+                {
+                    font-size:16px;
+                }
+                .top-header-title-ersea{margin-top:30px;}
+                .pagination-ch
+                {
+                        padding: 6px 11px;
+    height: 33px;
+    background: #fff;
+    display: inline-block!important;cursor:pointer;
+    vertical-align: top;
+                }
+                .pagination-ch i
+                {
+                      font-size: 17px;
+    padding-top: 3px;
+                }
     </style>
     <div class="container-fluid">
         <div class="row">
@@ -91,10 +109,10 @@
                                                         <tr>
                                                             <th style="text-align: center;">Zip Code</th>
                                                             <th style="text-align: center;">City Name</th>
-                                                            <th style="text-align: center;">Application by Zip Code (@ViewBag.OverAllApplication)</th>
-                                                            <th style="text-align: center;">Enrollment by Zip Code (@ViewBag.OverAllEnroll)</th>
-                                                            <th style="text-align: center;">Withdrawn by Zip Code (@ViewBag.OverAllWithdrawn)</th>
-                                                            <th style="text-align: center;">Dropped by Zip Code (@ViewBag.OverAllDoped)</th>
+                                                            <th style="text-align: center;">Application (@ViewBag.OverAllApplication)</th>
+                                                            <th style="text-align: center;">Enrollment (@ViewBag.OverAllEnroll)</th>
+                                                            <th style="text-align: center;">Withdrawn (@ViewBag.OverAllWithdrawn)</th>
+                                                            <th style="text-align: center;">Dropped (@ViewBag.OverAllDoped)</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="ersea-table-head-enroll scroll-tbody">
@@ -128,6 +146,40 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+
+                                            <div class="col-xs-12 poppage-slot" style="padding:0px;display:none;">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pagination-file">
+                                                    <div class="pages_display">
+                                                        <ul>
+                                                            <li style="color:#fff;">Display</li>
+                                                            <li>
+                                                                <select id="ddlpagetodisplay" onchange="drawgrid('#FosterDisplaymodal',this);" center="NzU=">
+                                                                    <option value="10" selected="selected">10</option>
+                                                                    <option value="25">25</option>
+                                                                    <option value="50">50</option>
+                                                                    <option value="100">100</option>
+                                                                </select>
+                                                            </li>
+                                                            <li style="color:#fff;">Records Per Page</li>
+                                                        </ul>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div id="divPaging" class="pagination_wrp">
+                                                        <ul id="ulPaging" class="pagination">
+                                                            <li class="pagination-ch"><i class="fa fa-angle-double-left"></i></li>
+                                                            <li class="pagination-ch" title="Back"><i class="fa fa-angle-left"></i></li>
+                                                            <li title="Select">
+                                                                <select class="select_cl" style="top: 0;" id="ddlpaging" onchange="getListafterupdation('#FosterDisplaymodal', this)" center="NzU="><option value="1">1</option><option value="2">2</option></select>
+                                                            </li>
+                                                            <li class="pagination-ch" title="Next"><i class="fa fa-angle-right"></i></li>
+                                                            <li class="pagination-ch" title="Last"><i class="fa fa-angle-double-right"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
 
 

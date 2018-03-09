@@ -536,7 +536,7 @@ namespace Fingerprints.Controllers
                 {
                     ViewBag.RoleName = "Area Manager"; ViewBag.ViewType = "Center";
                 }
-                ExecutiveDashBoard executive;
+                ExecutiveDashBoard executive=new ExecutiveDashBoard();
                 executive = new ExecutiveData().GetExecutiveDetails(Session["AgencyID"].ToString(), Session["UserID"].ToString(), Session["Roleid"].ToString());
                 TempData["CaseNote"] = executive.listCaseNote;
 

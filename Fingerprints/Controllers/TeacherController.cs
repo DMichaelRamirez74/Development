@@ -1100,6 +1100,7 @@ namespace Fingerprints.Controllers
                 var jsonSerialiser = new JavaScriptSerializer();
                 jsonSerialiser.MaxJsonLength = Int32.MaxValue;
                 model.WeeklyAttendancestring = jsonSerialiser.Serialize(model.WeeklyAttendance);
+                model.ChildInfoString = jsonSerialiser.Serialize(model.Itemlst);
             }
             catch(Exception ex)
             {

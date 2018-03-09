@@ -981,7 +981,6 @@
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\jquery.zoomcrop.css" />
     <Content Include="Content\jquery.zoomcrop.js" />
-    <Content Include="Content\JSON\totaldb.txt" />
     <Content Include="Content\metisMenu.min.css" />
     <Content Include="Content\multiselect.css" />
     <Content Include="Content\nanoscroller.css" />
@@ -1107,6 +1106,7 @@
     <Content Include="Content\zoom.js" />
     <Content Include="Exceptions\ErrorLog.txt" />
     <Content Include="favicon.ico" />
+    <Content Include="Fingerprints.csproj.vspscc" />
     <Content Include="Global.asax" />
     <Content Include="GoogleMaps.LocationServices.readme.txt" />
     <Content Include="Images\1.1.png" />
@@ -1437,9 +1437,8 @@
     <Content Include="Content\JSON\countydetails.json" />
     <Content Include="Content\JSON\county_new.json" />
     <Content Include="Content\JSON\states.json" />
-    <Content Include="Content\JSON\us_census_zipcode.json" />
-    <Content Include="Content\JSON\us_census_zipcodes.geojson" />
     <Content Include="Offline\cache.appcache" />
+    <Content Include="mssccprj.scc" />
     <None Include="Properties\PublishProfiles\FingerPrint.pubxml" />
     <None Include="Properties\PublishProfiles\staff registration.pubxml" />
     <Content Include="Scripts\amcharts.js" />

@@ -1407,7 +1407,7 @@
         formData.append("Fname", $('#Ofirstname').val());
         formData.append("Mname", $('#Omiddlename').val());
         formData.append("Lname", $('#Olastname').val());
-        formData.append("Gender", $('#OGender').val());
+        formData.append("OGender", $('input:radio[name=OGender]:checked').val());
         formData.append("ODOB", $('#ODOB').val());
         formData.append("SSN", $("#ParentSSN3").val());
         formData.append("OthersId", $('#OthersId').val());
@@ -1415,6 +1415,8 @@
         formData.append("IsEmer",$('#Oemergencycontact').is(":checked"));
 
         formData.append("HouseHoldAvatar", $('#HouseHoldAvatar')[0].files[0]);
+
+        
 
         if (isValidOtherInfo()) {
             $.ajax({
@@ -8365,7 +8367,7 @@
             }
         }
     }
-
+            
     function emptyParent1() {
         $('#Pfirstname')[0].value = "";
         $('#Plastname')[0].value = "";
@@ -8373,7 +8375,7 @@
         $('#Pemailid')[0].value = "";
         $('#PDOB').val("");
     }
-
+        
     function deleteParent2(value) {
         BootstrapDialog.confirm('Do you want to delete parent 2 ?', function (result) {
             if (result) {

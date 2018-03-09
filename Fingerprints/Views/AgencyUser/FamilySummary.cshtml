@@ -6,13 +6,13 @@
         FamilySummary
     }
     ViewBag.Title = "FamilySummary";
-    Layout =(Session["RoleId"].ToString()== "a65bb7c2-e320-42a2-aed4-409a321c08a5" ||Session["RoleId"].ToString()== "3b49b025-68eb-4059-8931-68a0577e5fa2")? "~/Views/Shared/AgencyAdminLayout.cshtml":  "~/Views/Shared/AgencyStaffLayout.cshtml";
-            }
+    Layout = (Session["RoleId"].ToString() == "a65bb7c2-e320-42a2-aed4-409a321c08a5" || Session["RoleId"].ToString() == "3b49b025-68eb-4059-8931-68a0577e5fa2") ? "~/Views/Shared/AgencyAdminLayout.cshtml" : "~/Views/Shared/AgencyStaffLayout.cshtml";
+}
 
 
 
 
-            @section Script{
+@section Script{
 
 
     <link href="~/Content/CaseNote/css/style.css" rel="stylesheet" />
@@ -22,124 +22,122 @@
     <link href="~/Content/css/familysummarystyle_latest.css" rel="stylesheet" />
     <script type="text/javascript">
         var round = 1;
-                var ssnothervalue = null;
-                var EnrolledObject = null;
+        var ssnothervalue = null;
+        var EnrolledObject = null;
 
 
-                function Checkdate(date) {
-                    var isAllow = false;
-                    var now = new Date();
-                    var selectedDate = new Date(date);
-                    if (selectedDate < now && selectedDate != now) {
-                        isAllow = true;
-                    } else {
-                        isAllow = false;
-                    }
-                    return isAllow;
-                }
-                function isvalid_mdy(s) {
+        function Checkdate(date) {
+            var isAllow = false;
+            var now = new Date();
+            var selectedDate = new Date(date);
+            if (selectedDate < now && selectedDate != now) {
+                isAllow = true;
+            } else {
+                isAllow = false;
+            }
+            return isAllow;
+        }
+        function isvalid_mdy(s) {
 
-                    var day, A = s.match(/[1-9][\d]*/g);
-                    try {
-                        A[0] -= 1;
-                        day = new Date(+A[2], A[0], +A[1]);
+            var day, A = s.match(/[1-9][\d]*/g);
+            try {
+                A[0] -= 1;
+                day = new Date(+A[2], A[0], +A[1]);
 
-                        if (day.getMonth() == A[0] && day.getDate() == A[1]) return day;
-                    }
-                    catch (er) {
-                        return er.message;
-                    }
+                if (day.getMonth() == A[0] && day.getDate() == A[1]) return day;
+            }
+            catch (er) {
+                return er.message;
+            }
 
-                }
+        }
 
                 function ValidateAge(birthDay, programtype)
-        {
+                {
+
+                    debugger;
                     var DOB = new Date(birthDay);
                     var today = new Date();
                     var age = today.getTime() - DOB.getTime();
                     age = Math.floor(age / (1000 * 60 * 60 * 24 * 365.25));
 
-            if (programtype == 'EHS' && age>3 )
-            {
+            if (programtype == 'EHS' && age > 3) {
                 error - ageerror - date
                 $('.error-ageerror-date').text("Invalid age for EHS child");
                 return false;
             }
-            else if (programtype == 'HS' && !(age<=3) && (age>6))
-            {
+            else if (programtype == 'HS' && !(age <= 3) && (age > 6)) {
                 $('.error-ageerror-date').text("Invalid age for HS child");
-                        return false;
-                    }
-                    else if(programtype=='parent' &&  ((age>=59) || (age<=10)))
-                    {
+                return false;
+            }
+            else if (programtype == 'parent' && ((age >= 59) || (age <= 10))) {
                 $('.error-ageerror-date').text("Invalid age for Preg Mom");
-                        return false;
-                    }
+                return false;
+            }
 
-                    else
-                    {
-                        return true;
-                    }
-                }
-                function validDate(text) {
-                    var isValid = true;
-                    var comp = text.split('/');
-                    if (comp.length !== 3)
-                        return false;
-                    if (comp[2].length != 4)
-                        return false;
-                    if (comp[2] <= 1901)
-                        return false;
-                    if (new Date(text).toString() == "Invalid Date")
-                        return false;
-                    if (!isvalid_mdy(text))
-                        return false;
-                    var TodayDate = new Date();
-                    var endDate = new Date(text);
+            else {
+                return true;
+            }
+        }
+        function validDate(text) {
+            var isValid = true;
+            var comp = text.split('/');
+            if (comp.length !== 3)
+                return false;
+            if (comp[2].length != 4)
+                return false;
+            if (comp[2] <= 1901)
+                return false;
+            if (new Date(text).toString() == "Invalid Date")
+                return false;
+            if (!isvalid_mdy(text))
+                return false;
+            var TodayDate = new Date();
+            var endDate = new Date(text);
 
                     return isValid;
                 }
                 function IsValidDOB()
-        {
+                {
+                    debugger;
                     var isValid = true;
                     var programtype = $('.txt-date').attr('data-programtype');
                     var selectedDate= $('.txt-date').val();
 
-                    if (selectedDate != "") {
-                        var isValid = Checkdate(selectedDate);
-                        if (!validDate(selectedDate)) {
-                     $('.error-invalid-date').show();
-                            isValid = false;
-                        }
-                        else if (!ValidateAge(selectedDate, programtype)) {
-                     $('.error-ageerror-date').show();
-                            isValid = false;
-                        }
-                    }
-                    else {
-                 $('.error-message-empty').show();
-                        isValid = false;
-                    }
-
-                    return isValid;
-
+            if (selectedDate != "") {
+                var isValid = Checkdate(selectedDate);
+                if (!validDate(selectedDate)) {
+                    $('.error-invalid-date').show();
+                    isValid = false;
                 }
+                else if (!ValidateAge(selectedDate, programtype)) {
+                    $('.error-ageerror-date').show();
+                    isValid = false;
+                }
+            }
+            else {
+                $('.error-message-empty').show();
+                isValid = false;
+            }
 
-                function ChangeDOB(arg)
-        {
+            return isValid;
 
-                    var clientid = $(arg).attr('data-childid');
-                    var programtype = $(arg).attr('data-programtype');
+        }
+
+        function ChangeDOB(arg) {
+
+            var clientid = $(arg).attr('data-childid');
+            var programtype = $(arg).attr('data-programtype');
             $('#hChildID').val(clientid);
             $('.txt-date').attr('data-programtype', programtype);
 
-                $('#ChangeDOB').modal('show');
+            $('#ChangeDOB').modal('show');
 
 
-                }
+        }
 
 
-                function ShowChangeClassReason(object) {
+        function ShowChangeClassReason(object) {
             if ($(object).val() == "-1")
                 $('#DivChangeClassReason').show();
             else
@@ -164,8 +162,7 @@
                         secureuri: false,
                         async: false,
                         success: function (data) {
-                            if(data==true)
-                            {
+                            if (data == true) {
                                 customAlert("Record updated successfully.");
                                 $('#ChangeDOB').modal('hide');
                                 var ids = '#dob' + $('#hChildID').val();
@@ -205,7 +202,7 @@
 
 
             $('.txt-date').focusout(function () {
-               $(this).parent('.input-container').find('span').hide();
+                $(this).parent('.input-container').find('span').hide();
             });
             $('.txt-date').focusin(function (e) {
                 e.preventDefault();
@@ -405,83 +402,83 @@
 
                                     if ($('#clsRoomId').val() != "") {
 
-                                    if ($('#centerId').val() == data.list.Centers[i].CenterId) {
+                                        if ($('#centerId').val() == data.list.Centers[i].CenterId) {
 
-                                        option = option + '<option value="' + data.list.Centers[i].CenterId + '">' + data.list.Centers[i].Name + '</option>';
+                                            option = option + '<option value="' + data.list.Centers[i].CenterId + '">' + data.list.Centers[i].Name + '</option>';
+                                        }
                                     }
-                                }
                                     else {
-                                    if ($('#centerId').val() != data.list.Centers[i].CenterId) {
-                                        option = option + '<option value="' + data.list.Centers[i].CenterId + '">' + data.list.Centers[i].Name + '</option>';
+                                        if ($('#centerId').val() != data.list.Centers[i].CenterId) {
+                                            option = option + '<option value="' + data.list.Centers[i].CenterId + '">' + data.list.Centers[i].Name + '</option>';
+                                        }
                                     }
                                 }
-                            }
                                 $('#Centers').find('option').remove().end().append(option);
                                 $('#Centers').val('');
-                        }
+                            }
                             $('#Centers').prop('selectedIndex', 0);
+                        }
                     }
-                }
                     , error: function (response) {
-                    customAlert("Session Ended Log Onto The System Again."); setTimeout(function () { window.location.href = HostedDir + '/login/Loginagency'; }, 2000);
-                }
-            });
-        }
+                        customAlert("Session Ended Log Onto The System Again."); setTimeout(function () { window.location.href = HostedDir + '/login/Loginagency'; }, 2000);
+                    }
+                });
+            }
             $('.clsCenters').change(function () {
 
-            if ($(this).val() != "0") {
+                if ($(this).val() != "0") {
 
 
                     $('#spnClassName').text('');
                     $('#spnAvailableCount').text('0');
                     $('#ptotalSeats').hide();
                     $.ajax({
-                    url: HostedDir + "/Roster/Getclassrooms",
+                        url: HostedDir + "/Roster/Getclassrooms",
                         type: "POST",
                         data: {
-                        Centerid: $('#Centers').val()
+                            Centerid: $('#Centers').val()
                         },
                         dataType: "json",
                         secureuri: false,
                         async: false,
                         success: function (response) {
-                        if (response.length > 0) {
+                            if (response.length > 0) {
 
-                            var option = "";
+                                var option = "";
                                 $('#ddClassroom').empty();
-                            option = '<option value="0">Select classroom</option>';
-                            for (var i = 0; i < response.length; i++) {
+                                option = '<option value="0">Select classroom</option>';
+                                for (var i = 0; i < response.length; i++) {
 
-                                if ($('#clsRoomId').val() != response[i].ClassroomID) {
+                                    if ($('#clsRoomId').val() != response[i].ClassroomID) {
 
-                                option = option + '<option value="' + response[i].ClassroomID + '">' + response[i].ClassName + '</option>';
-                            }
-                        }
+                                        option = option + '<option value="' + response[i].ClassroomID + '">' + response[i].ClassName + '</option>';
+                                    }
+                                }
                                 $('#ddClassroom').find('option').remove().end().append(option);
                                 $('#ddClassroom').val('0');
-                    }
+                            }
                             else {
                                 $('#ddClassroom').find('option').remove();
-                    }
-                }
+                            }
+                        }
                            , error: function (response) {
-                    customAlert("Session Ended Log Onto The System Again."); setTimeout(function () { window.location.href = HostedDir + '/login/Loginagency'; }, 2000);
+                               customAlert("Session Ended Log Onto The System Again."); setTimeout(function () { window.location.href = HostedDir + '/login/Loginagency'; }, 2000);
+                           }
+                    });
+
                 }
+
             });
-
-        }
-
-    });
 
             $('.clsClassRooms').change(function () {
                 //CKEDITOR.instances['Note'].setData("Will change class room From " + $('#clsRoomName').val() + " To " + $('#ddClassroom option:selected').text());
 
                 $('.errorAvailableSeat').hide();
                 $.ajax({
-            url: HostedDir + "/Roster/GetAvailablitySetsByClass",
+                    url: HostedDir + "/Roster/GetAvailablitySetsByClass",
                     type: "POST",
                     data: {
-                CenterId: $('#Centers').val(), ClassRoomId: $('#ddClassroom').val(), ClientID: $('#hChildID').val()
+                        CenterId: $('#Centers').val(), ClassRoomId: $('#ddClassroom').val(), ClientID: $('#hChildID').val()
                     },
                     dataType: "json",
                     secureuri: false,
@@ -492,21 +489,21 @@
                         $('#spnAvailableCount').text(data);
                         $('#ptotalSeats').show();
 
-                var num = parseInt(data);
+                        var num = parseInt(data);
 
 
-                if (data == "" || data == "0" || (num < 0)) {
+                        if (data == "" || data == "0" || (num < 0)) {
                             $('.addn_sep_casenote').hide();
                             $('#spnAvailableCount').text("0");
                             $('.errorAvailableSeat').show();
-                }
-                else {
+                        }
+                        else {
 
                             $.ajax({
-                        url: HostedDir + "/Roster/GetCenterAndClassRoomsByCenter",
+                                url: HostedDir + "/Roster/GetCenterAndClassRoomsByCenter",
                                 type: "POST",
                                 data: {
-                            centerid: $('#Centers').val(), Classroom: $('#ddClassroom').val(), householdid: '@Model.HouseholdId', ChildId: $('#hChildID').val()
+                                    centerid: $('#Centers').val(), Classroom: $('#ddClassroom').val(), householdid: '@Model.HouseholdId', ChildId: $('#hChildID').val()
                                 },
                                 dataType: "json",
                                 secureuri: false,
@@ -515,77 +512,77 @@
 
                                     $('.ClientDiv').empty();
                                     $('.StaffDiv').empty();
-                            for (var i = 0; i < data.list.CenterAndClassRoom.length; i++) {
+                                    for (var i = 0; i < data.list.CenterAndClassRoom.length; i++) {
 
                                         $('.ClientDiv').append('<div class="col-sm-12"><input type="checkbox"  checked="checked" class="clsClientIds"  name="ClientIds.IDS" value="' + data.list.CenterAndClassRoom[i].Eclientid + '" /><span> ' + data.list.CenterAndClassRoom[i].Name + " (" + data.list.CenterAndClassRoom[i].clientenrolled + ")" + '</span></div>');
 
-                            }
+                                    }
 
-                            for (var i = 0; i < data.list.CaseNoteDetails.length; i++) {
+                                    for (var i = 0; i < data.list.CaseNoteDetails.length; i++) {
 
                                         $('.StaffDiv').append('<div class="col-sm-12"><input type="checkbox"  checked="checked" class="clsStaffIds" name="ClientIds.IDS" value="' + data.list.CaseNoteDetails[i].UserId + '" /><span> ' + data.list.CaseNoteDetails[i].Name + '</span></div>');
-                            }
+                                    }
 
                                     $('#CaseNotetags_tagsinput .tag ').each(function () {
                                         $(this).remove();
-                            });
+                                    });
                                     $('#CaseNotetags_tagsinput .tag1 ').remove();
 
 
 
-                            if ($('#centerName').val() != "") {
-                                var contenct = "Change center From " + $('#centerName').val() + " center and  " + $('#clsRoomName').val() + " classroom to " + $('#Centers option:selected').text() + " center and " + $('#ddClassroom option:selected').text() + " classroom";
+                                    if ($('#centerName').val() != "") {
+                                        var contenct = "Change center From " + $('#centerName').val() + " center and  " + $('#clsRoomName').val() + " classroom to " + $('#Centers option:selected').text() + " center and " + $('#ddClassroom option:selected').text() + " classroom";
 
-                                CKEDITOR.instances['Note'].setData(contenct);
+                                        CKEDITOR.instances['Note'].setData(contenct);
 
                                         $('#CaseNotetags_tagsinput').prepend('<span class="tag1"><span>Center Change&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>');
 
-                                // $('#CaseNotetags_tagsinput').prepend('<span class="tag"><span>' + "Center Change" + '&nbsp;&nbsp;</span><a href="#" onclick="removetag(this);" title="Removing tag">x</a></span>');
-                            }
+                                        // $('#CaseNotetags_tagsinput').prepend('<span class="tag"><span>' + "Center Change" + '&nbsp;&nbsp;</span><a href="#" onclick="removetag(this);" title="Removing tag">x</a></span>');
+                                    }
                                     else {
-                                CKEDITOR.instances['Note'].setData("Change classroom From " + $('#clsRoomName').val() + " To " + $('#ddClassroom option:selected').text());
+                                        CKEDITOR.instances['Note'].setData("Change classroom From " + $('#clsRoomName').val() + " To " + $('#ddClassroom option:selected').text());
 
                                         $('#CaseNotetags_tagsinput').prepend('<span class="tag1"><span>Classroom Change&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>');
 
-                                //  $('#CaseNotetags_tagsinput').prepend('<span class="tag"><span>' + "Classroom Change" + '&nbsp;&nbsp;</span><a href="#" onclick="removetag(this);" title="Removing tag">x</a></span>');
-                            }
+                                        //  $('#CaseNotetags_tagsinput').prepend('<span class="tag"><span>' + "Classroom Change" + '&nbsp;&nbsp;</span><a href="#" onclick="removetag(this);" title="Removing tag">x</a></span>');
+                                    }
 
                                     $('.addn_sep_casenote').show();
 
+                                }
+                            });
+
                         }
-                    });
-
-                }
-            }
+                    }
                        , error: function (response) {
-                customAlert("Session Ended Log Onto The System Again."); setTimeout(function () { window.location.href = HostedDir + '/login/Loginagency'; }, 2000);
-            }
-        });
+                           customAlert("Session Ended Log Onto The System Again."); setTimeout(function () { window.location.href = HostedDir + '/login/Loginagency'; }, 2000);
+                       }
+                });
 
 
 
-    });
+            });
 
 
             $('body').on("change keyup", ".mandatory", function () {
-        if ($(this).closest('div').find('.err-message').is(':visible'))
+                if ($(this).closest('div').find('.err-message').is(':visible'))
                     $(this).closest('div').find('.err-message').hide();
 
-    });
+            });
             $('body').on("change keyup", ".txt-date", function () {
-        if ($(this).closest('div').find('.err-date-message').is(':visible'))
+                if ($(this).closest('div').find('.err-date-message').is(':visible'))
                     $(this).closest('div').find('.err-date-message').hide();
 
-    });
+            });
             $('body').on("change keyup", "#Note", function () {
-        if ($(this).closest('div').find('.err-casenote-note').is(':visible'))
+                if ($(this).closest('div').find('.err-casenote-note').is(':visible'))
                     $(this).closest('div').find('.err-casenote-note').hide();
 
-    });
+            });
 
             function validatedateChild(inputTextObject) {
 
-        if ($(inputTextObject).val().trim() != "MM/DD/YYYY" && $(inputTextObject).val().trim() != "") {
+                if ($(inputTextObject).val().trim() != "MM/DD/YYYY" && $(inputTextObject).val().trim() != "") {
 
                     var dateformat = /^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/;
                     var regex = new RegExp(dateformat);
@@ -623,14 +620,12 @@
                         isValid = false;
                 }
 
-                if ($('#changeClassReason').val() == "-1" && $('#txtChangeClassReason').val()=="")
-                {
+                if ($('#changeClassReason').val() == "-1" && $('#txtChangeClassReason').val() == "") {
                     $('#txtChangeClassReason').parent('div').find('.err-message').show();
                     if (isValid)
                         isValid = false;
                 }
-                else
-                {
+                else {
                     $('#txtChangeClassReason').parent('div').find('.err-message').hide();
                 }
                 if ($('.addn_sep_casenote').is(":visible") == true) {
@@ -661,7 +656,7 @@
 
                 if (ValidateInput()) {
                     var clientIDs = [];
-                   
+
                     var Tags = '';
                     Tags = Tags + $('#CaseNotetags_tagsinput .tag1 span').text().trim() + ',';
                     $('#CaseNotetags_tagsinput .tag span').each(function () {
@@ -2096,6 +2091,8 @@
             });
 
         }
+
+
         function deleteRestricted(value) {
 
             BootstrapDialog.confirm('Do you want to delete this record ?', function (result) {
@@ -2319,7 +2316,7 @@
 
         #blue-down {
             -moz-appearance: none;
-            background: #fff url("../images/blue-drop.png") no-repeat scroll right 2% center;
+            background: #fff url("../../Content/imgs/blue-drop.png") no-repeat scroll right 2% center;
             color: #164b7b;
             margin-top: 5px;
             -webkit-appearance: none;
@@ -2565,14 +2562,15 @@
                 <div class="container-fluid">
                     <div class="row">
                         <!------------Your Code----------------->
-                        <div class="right-side-container-ch col-xs-12">
+                        <div class="right-side-container-ch col-xs-12" style="padding-top: 30px;">
 
-                            <div class="col-xs-12" style="padding:30px;">
-                                <a href="/Roster/Roster" style="padding:15px;float: right;color: #fff;margin-right: 15px;background-color:#9b59b6;border-radius: 4px; ">Back To Roster</a>
-                                <div class="top-header-title-transportation" style="margin-top:35px!important">
+                            <div class="col-xs-12" style="padding:0px 15px;margin-bottom:20px;">
+
+                                <div class="top-header-title-transportation" style="margin-bottom:35px!important">
                                     <h1>FAMILY SUMMARY</h1>
 
                                 </div>
+                                <a href="/Roster/Roster" style="padding:15px;float: right;color: #fff;margin-right:0px;background-color:#9b59b6;border-radius: 4px; ">Back To Roster</a>
                             </div>
 
 
@@ -2600,7 +2598,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12">
-                                        <div class="form-group">
+                                        <div class="form-group" style="width:200px;">
                                             <select id="blue-down" class="form-control ddFileCabinet">
                                                 <option>Child</option>
                                                 <option>Guardian</option>
@@ -2635,61 +2633,61 @@
                                     {
                                         foreach (var item in Model._Clist)
                                         {
-                                            <div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
-                                                <div class="house-hold">
-                                                    <div class="hld-img">
+                                    <div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
+                                        <div class="house-hold">
+                                            <div class="hld-img">
 
-                                                        @if (string.IsNullOrEmpty(item.Imagejson) && item.CGender == "2")
+                                                @if (string.IsNullOrEmpty(item.Imagejson) && item.CGender == "2")
                                                         {
-                                                            <img src="~/Content/img/ic_female.png" style="margin-top:4px;" />
+                                                        <img src="~/Content/img/ic_female.png" style="margin-top:4px;" />
                                                         }
                                                         else if (string.IsNullOrEmpty(item.Imagejson) && item.CGender == "1")
                                                         {
-                                                            <img src="~/Content/img/ic_male.png" style="margin-top:4px;" />
+                                                        <img src="~/Content/img/ic_male.png" style="margin-top:4px;" />
                                                         }
                                                         else if (string.IsNullOrEmpty(item.Imagejson) && item.CGender == "3")
                                                         {
-                                                            <img src="~/Content/img/ic_male_default.png" style="margin-top:4px;" />
+                                                        <img src="~/Content/img/ic_male_default.png" style="margin-top:4px;" />
                                                         }
 
                                                         else if (!string.IsNullOrEmpty(item.Imagejson))
                                                         {
-                                                            <img width="110" height="108" src="data:image/jpg;base64,@item.Imagejson" style="margin-top: 4px;" />
+                                                        <img width="110" height="108" src="data:image/jpg;base64,@item.Imagejson" style="margin-top: 4px;" />
                                                         }
                                                         else
                                                         {
-                                                            <img width="108" height="108" src="~/Content/img/download.jpg" style="margin-top:4px;" />
+                                                        <img width="108" height="108" src="~/Content/img/download.jpg" style="margin-top:4px;" />
                                                         }
 
 
-                                                    </div>
-                                                    <div class="det-cont" style="min-height: 130px;">
-                                                        <h4>@item.Cfirstname</h4>
-                                                        <ul>
-                                                            <li>
-                                                                <p>@item.Gender</p>
-                                                                @if (item.CProgramType != null && item.CenterId > 0 && item.ClassRoomId > 0)
+                                            </div>
+                                            <div class="det-cont" style="min-height: 130px;">
+                                                <h4>@item.Cfirstname</h4>
+                                                <ul>
+                                                    <li>
+                                                        <p>@item.Gender</p>
+                                                        @if (item.CProgramType != null && item.CenterId > 0 && item.ClassRoomId > 0)
                                                                 {
-                                                                    <span>
-                                                                        <a href="#" id="dob@(item.ChildId)" onclick="ChangeDOB(this)" data-programtype="@item.CProgramType" data-childid="@item.ChildId" style="text-decoration:underline">@item.CDOB</a>
-                                                                    </span>
+                                                                <span>
+                                                                    <a href="#" id="dob@(item.ChildId)" onclick="ChangeDOB(this)" data-programtype="@item.CProgramType" data-childid="@item.ChildId" style="text-decoration:underline">@item.CDOB</a>
+                                                                </span>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <span>
-                                                                        @item.CDOB
-                                                                    </span>
+                                                                <span>
+                                                                    @item.CDOB
+                                                                </span>
                                                                 }
 
-                                                            </li>
+                                                    </li>
 
 
 
 
-                                                            @if (item.CenterId > 0 && item.ClassRoomId > 0)
+                                                    @if (item.CenterId > 0 && item.ClassRoomId > 0)
                                                             {
-                                                                <li><p>Center</p><span class="overflow-common"><a href="#" title="@item.CenterName" class="add-new-center" data-childid="@item.ChildId" data-center-attr="@item.CenterId" data-cls-roomname="@item.ClassRoomName" data-center-name="@item.CenterName">@item.CenterName</a></span></li>
-                                                                <li><p>Classroom</p><span><a href="#" class="add-new-cls" data-childid="@item.ChildId" data-center-attr="@item.CenterId" data-cls-attr="@item.ClassRoomId" data-cls-roomname="@item.ClassRoomName">@item.ClassRoomName</a></span></li>
+                                                            <li><p>Center</p><span class="overflow-common"><a href="#" title="@item.CenterName" class="add-new-center" data-childid="@item.ChildId" data-center-attr="@item.CenterId" data-cls-roomname="@item.ClassRoomName" data-center-name="@item.CenterName">@item.CenterName</a></span></li>
+                                                            <li><p>Classroom</p><span><a href="#" class="add-new-cls" data-childid="@item.ChildId" data-center-attr="@item.CenterId" data-cls-attr="@item.ClassRoomId" data-cls-roomname="@item.ClassRoomName">@item.ClassRoomName</a></span></li>
                                                             }
 
 
@@ -2697,49 +2695,49 @@
 
 
 
-                                                        </ul>
-                                                    </div>
-                                                    <div class="home-fft">
-                                                        @if (@item.Yakkr == "1")
+                                                </ul>
+                                            </div>
+                                            <div class="home-fft">
+                                                @if (@item.Yakkr == "1")
                                                         {
-                                                            <a style="color:red;font-size:18px;" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Intake</a>
+                                                        <a style="color:red;font-size:18px;" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Intake</a>
                                                         }
                                                         else if (@item.Yakkr == "2")
                                                         {
-                                                            <a style="color:red;font-size:18px;" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Waiting List</a>
+                                                        <a style="color:red;font-size:18px;" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Waiting List</a>
                                                         }
                                                         else if (@item.Yakkr == "3")
                                                         {
-                                                            <a style="color:red;font-size:18px;" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Pending</a>
+                                                        <a style="color:red;font-size:18px;" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Pending</a>
                                                         }
                                                         else if (@item.Yakkr == "4")
                                                         {
-                                                            <a style="color:red;font-size:18px;" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Accepted</a>
+                                                        <a style="color:red;font-size:18px;" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Accepted</a>
                                                         }
                                                         else if (@item.Yakkr == "5")
                                                         {
-                                                            <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Enrolled</a>
+                                                        <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Enrolled</a>
                                                         }
                                                         else if (@item.Yakkr == "6")
                                                         {
-                                                            <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Dropped</a>
+                                                        <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Dropped</a>
                                                         }
                                                         else if (@item.Yakkr == "7")
                                                         {
-                                                            <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Withdrawn</a>
+                                                        <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Withdrawn</a>
                                                         }
                                                         else if (@item.Yakkr == "8")
                                                         {
-                                                            <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Enrollmentservices</a>
+                                                        <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Enrollmentservices</a>
                                                         }
                                                         else if (@item.Yakkr == "9")
                                                         {
-                                                            <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Re-enrolled</a>
+                                                        <a style="color:red;font-size:18px;" title="Click to change status" clientid="@item.ChildId" name="@item.Cfirstname" onclick="Loadchangestatusmodel(this);" accesskey="@item.Yakkr" href="javascript:void(0)">Re-enrolled</a>
                                                         }
-                                                        <button class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i><a style="color:#fff;" href="~/AgencyUser/AddNewChild?id=@Model.Encrypthouseholid&Clientid=@FingerprintsModel.EncryptDecrypt.Encrypt64(@item.ChildId.ToString())">&nbsp;Edit</a>	</button>
-                                                    </div>
-                                                </div>
+                                                <button class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i><a style="color:#fff;" href="~/AgencyUser/AddNewChild?id=@Model.Encrypthouseholid&Clientid=@FingerprintsModel.EncryptDecrypt.Encrypt64(@item.ChildId.ToString())">&nbsp;Edit</a>	</button>
                                             </div>
+                                        </div>
+                                    </div>
                                         }
                                     }
                                     @*<div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
@@ -2839,13 +2837,13 @@
                                     <div class="information_titles" style="background:#9b59b6;">
                                         @if (Model.ParentID1 != 0)
                                         {
-                                            <h4>Parent/Guardian</h4>
+                                        <h4>Parent/Guardian</h4>
                                         }
                                         else
                                         {
-                                            <h4>Parent/Guardian</h4>
-                                            @*<h3 class="panel-title">Parent/Guardian<a href="~/AgencyUser/AddNewParent?id=@Model.Encrypthouseholid" class="pull-right">Add</a> </h3>*@
-                                            <button class="btn btn-add"><a href="~/AgencyUser/AddNewParent?id=@Model.Encrypthouseholid">Add</a></button>
+                                        <h4>Parent/Guardian</h4>
+                                        @*<h3 class="panel-title">Parent/Guardian<a href="~/AgencyUser/AddNewParent?id=@Model.Encrypthouseholid" class="pull-right">Add</a> </h3>*@
+                                        <button class="btn btn-add"><a href="~/AgencyUser/AddNewParent?id=@Model.Encrypthouseholid">Add</a></button>
                                         }
 
                                     </div>
@@ -2857,23 +2855,23 @@
 
                                                 @if (string.IsNullOrEmpty(Model.PImagejson) && Model.PGender == "2")
                                                 {
-                                                    <img src="~/Content/img/ic_female.png" style="margin-top: 4px;" />
+                                                <img src="~/Content/img/ic_female.png" style="margin-top: 4px;" />
                                                 }
                                                 else if (string.IsNullOrEmpty(Model.PImagejson) && Model.PGender == "1")
                                                 {
-                                                    <img src="~/Content/img/adult-image.png" style="margin-top: 4px;" />
+                                                <img src="~/Content/img/adult-image.png" style="margin-top: 4px;" />
                                                 }
                                                 else if (string.IsNullOrEmpty(Model.PImagejson) && Model.PGender == "3")
                                                 {
-                                                    <img src="~/Content/img/adult-image.png" style="margin-top: 4px;" />
+                                                <img src="~/Content/img/adult-image.png" style="margin-top: 4px;" />
                                                 }
                                                 else if (!string.IsNullOrEmpty(Model.PImagejson))
                                                 {
-                                                    <img width="108" height="108" src="data:image/jpg;base64,@Model.PImagejson" style="margin-top: 4px;" />
+                                                <img width="108" height="108" src="data:image/jpg;base64,@Model.PImagejson" style="margin-top: 4px;" />
                                                 }
                                                 else
                                                 {
-                                                    <img width="108" height="108" src="~/Content/img/download.jpg" style="margin-top: 4px;" />
+                                                <img width="108" height="108" src="~/Content/img/download.jpg" style="margin-top: 4px;" />
                                                 }
 
 
@@ -2885,26 +2883,26 @@
                                                         <p>@Model.GenderParent1</p>
                                                         @if (@Model.IsPreg != 0)
                                                         {
-                                                            <span>
-                                                                <a href="#" id="dob@(Model.ParentID)" onclick="ChangeDOB(this)" data-programtype="parent" data-childid="@Model.ParentID" style="text-decoration:underline">@Model.PDOB</a>
-                                                            </span>
+                                                        <span>
+                                                            <a href="#" id="dob@(Model.ParentID)" onclick="ChangeDOB(this)" data-programtype="parent" data-childid="@Model.ParentID" style="text-decoration:underline">@Model.PDOB</a>
+                                                        </span>
                                                         }
                                                         else
                                                         {
-                                                            <span>
-                                                                @Model.PDOB
-                                                            </span>
+                                                        <span>
+                                                            @Model.PDOB
+                                                        </span>
                                                         }
                                                         @*<span>@Model.PDOB</span></li>*@
                                                     <li style="margin-bottom:0;min-height: 64px;">
                                                         <p>Contact No</p>
                                                         @foreach (var ph in Model.PPhoneList)
                                                         {
-                                                            <span style="margin-bottom:0px;">
+                                                        <span style="margin-bottom:0px;">
 
-                                                                @ph
+                                                            @ph
 
-                                                            </span>
+                                                        </span>
                                                         }
                                                     </li>
                                                 </ul>
@@ -2927,81 +2925,81 @@
 
                                     @if (Model.ParentID1 != 0)
                                     {
-                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                            <div class="house-hold">
-                                                <div class="hld-img" style="width:23%;">
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                        <div class="house-hold">
+                                            <div class="hld-img" style="width:23%;">
 
-                                                    @if (string.IsNullOrEmpty(Model.P1Imagejson) && Model.P1Gender == 2)
+                                                @if (string.IsNullOrEmpty(Model.P1Imagejson) && Model.P1Gender == 2)
                                                     {
-                                                        <img src="~/Content/img/ic_female.png" style="margin-top: 4px;" />
+                                                    <img src="~/Content/img/ic_female.png" style="margin-top: 4px;" />
                                                     }
                                                     else if (string.IsNullOrEmpty(Model.P1Imagejson) && Model.P1Gender == 1)
                                                     {
-                                                        <img src="~/Content/img/adult-image.png" style="margin-top: 4px;" />
+                                                    <img src="~/Content/img/adult-image.png" style="margin-top: 4px;" />
                                                     }
                                                     else if (string.IsNullOrEmpty(Model.P1Imagejson) && Model.P1Gender == 3)
                                                     {
-                                                        <img src="~/Content/img/adult-image.png" style="margin-top: 4px;" />
+                                                    <img src="~/Content/img/adult-image.png" style="margin-top: 4px;" />
                                                     }
                                                     else if (!string.IsNullOrEmpty(Model.P1Imagejson))
                                                     {
-                                                        <img width="108" height="108" src="data:image/jpg;base64,@Model.P1Imagejson" style="margin-top: 4px;" />
+                                                    <img width="108" height="108" src="data:image/jpg;base64,@Model.P1Imagejson" style="margin-top: 4px;" />
                                                     }
                                                     else
                                                     {
-                                                        <img width="108" height="108" src="~/Content/img/download.jpg" style="margin-top: 4px;" />
+                                                    <img width="108" height="108" src="~/Content/img/download.jpg" style="margin-top: 4px;" />
                                                     }
-                                                </div>
-                                                <div class="det-cont" style="width:75%;">
-                                                    <h4>@Model.P1firstname</h4>
-                                                    <ul style="float:left;width:100%;margin-bottom:0;" class="parent-head-ch">
-                                                        <li>
-                                                            <p>@Model.GenderParent2</p>
-                                                            @if (@Model.IsPreg1 != 0)
+                                            </div>
+                                            <div class="det-cont" style="width:75%;">
+                                                <h4>@Model.P1firstname</h4>
+                                                <ul style="float:left;width:100%;margin-bottom:0;" class="parent-head-ch">
+                                                    <li>
+                                                        <p>@Model.GenderParent2</p>
+                                                        @if (@Model.IsPreg1 != 0)
                                                             {
-                                                                <span>
-                                                                    <a href="#" id="dob@(Model.ParentID1)" onclick="ChangeDOB(this)" data-programtype="parent" data-childid="@Model.ParentID" style="text-decoration:underline">@Model.P1DOB</a>
-                                                                </span>
+                                                            <span>
+                                                                <a href="#" id="dob@(Model.ParentID1)" onclick="ChangeDOB(this)" data-programtype="parent" data-childid="@Model.ParentID" style="text-decoration:underline">@Model.P1DOB</a>
+                                                            </span>
                                                             }
                                                             else
                                                             {
-                                                                <span>
-                                                                    <a href="#">@Model.P1DOB</a>
-                                                                </span>
+                                                            <span>
+                                                                <a href="#">@Model.P1DOB</a>
+                                                            </span>
                                                             }
-                                                            @*<span>@Model.P1DOB</span>*@
+                                                        @*<span>@Model.P1DOB</span>*@
 
-                                                        </li>
-                                                        <li style="margin-bottom:0;min-height: 64px;">
-                                                            <p>Contact No</p>
-                                                            @foreach (var ph in Model.P1PhoneList)
+                                                    </li>
+                                                    <li style="margin-bottom:0;min-height: 64px;">
+                                                        <p>Contact No</p>
+                                                        @foreach (var ph in Model.P1PhoneList)
                                                             {
-                                                                <span style="margin-bottom:0px;">
+                                                            <span style="margin-bottom:0px;">
 
-                                                                    @ph
+                                                                @ph
 
-                                                                </span>
+                                                            </span>
                                                             }
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                @*<div class="contactno" style="float: left;text-align: left;color: #295b8f;font-size: 17px;font-weight: bold;"></div>*@
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            @*<div class="contactno" style="float: left;text-align: left;color: #295b8f;font-size: 17px;font-weight: bold;"></div>*@
 
-                                                @*<div class="contactno" style="text-align: right;padding-top: 5px;">@ph</div>*@
-                                                @*<ul style="float:left;width:100%;">
-
-
-                                                    </ul>*@
+                                            @*<div class="contactno" style="text-align: right;padding-top: 5px;">@ph</div>*@
+                                            @*<ul style="float:left;width:100%;">
 
 
-                                                <div class="home-fft" style="margin-top:0;">
+                                                </ul>*@
 
-                                                    <button class="btn btn-success">
-                                                        <i class="fa fa-pencil" aria-hidden="true"></i>	<a style="color:#fff;" href="~/AgencyUser/AddNewParent?id=@Model.Encrypthouseholid&Parentid=@FingerprintsModel.EncryptDecrypt.Encrypt64(Model.ParentID1.ToString())">&nbsp;Edit</a>
-                                                    </button>
-                                                </div>
+
+                                            <div class="home-fft" style="margin-top:0;">
+
+                                                <button class="btn btn-success">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>	<a style="color:#fff;" href="~/AgencyUser/AddNewParent?id=@Model.Encrypthouseholid&Parentid=@FingerprintsModel.EncryptDecrypt.Encrypt64(Model.ParentID1.ToString())">&nbsp;Edit</a>
+                                                </button>
                                             </div>
                                         </div>
+                                    </div>
                                     }
 
                                 </div>
@@ -3020,55 +3018,55 @@
                                         {
                                             foreach (var item in Model._Olist)
                                             {
-                                                <div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
-                                                    <div class="house-hold">
-                                                        <div class="hld-img">
-                                                            @if (string.IsNullOrEmpty(item.HouseHoldImagejson) && item.OGender == "2")
+                                        <div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
+                                            <div class="house-hold">
+                                                <div class="hld-img">
+                                                    @if (string.IsNullOrEmpty(item.HouseHoldImagejson) && item.OGender == "2")
                                                             {
-                                                                <img src="~/Content/img/ic_female.png" />
+                                                            <img src="~/Content/img/ic_female.png" />
                                                             }
                                                             else if (string.IsNullOrEmpty(item.HouseHoldImagejson) && item.OGender == "1")
                                                             {
-                                                                <img src="~/Content/img/ic_male.png" />
+                                                            <img src="~/Content/img/ic_male.png" />
                                                             }
                                                             else if (string.IsNullOrEmpty(item.HouseHoldImagejson) && item.OGender == "3")
                                                             {
-                                                                <img src="~/Content/img/ic_male_default.png" />
+                                                            <img src="~/Content/img/ic_male_default.png" />
                                                             }
                                                             else if (!string.IsNullOrEmpty(item.HouseHoldImagejson))
                                                             {
-                                                                <img width="108" height="108" src="data:image/jpg;base64,@item.HouseHoldImagejson" />
+                                                            <img width="108" height="108" src="data:image/jpg;base64,@item.HouseHoldImagejson" />
                                                             }
                                                             else
                                                             {
-                                                                <img width="108" height="108" src="~/Content/img/download.jpg" />
+                                                            <img width="108" height="108" src="~/Content/img/download.jpg" />
                                                             }
-                                                        </div>
-                                                        <div class="det-cont" style="min-height: 130px;">
-                                                            <h4>@item.Ofirstname</h4>
-                                                            <ul>
-                                                                <li><p>@item.Gender</p><span>@item.ODOB</span></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="home-fft">
-                                                            @if (item.OtherEligible)
+                                                </div>
+                                                <div class="det-cont" style="min-height: 130px;">
+                                                    <h4>@item.Ofirstname</h4>
+                                                    <ul>
+                                                        <li><p>@item.Gender</p><span>@item.ODOB</span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="home-fft">
+                                                    @if (item.OtherEligible)
                                                             {
-                                                                <a title="Click to enroll" style="color:red;" href="~/AgencyUser/AddNewChild?id=@Model.Encrypthouseholid&Name=@Model.EncryptedName&OthersId=@FingerprintsModel.EncryptDecrypt.Encrypt64(@item.OthersId.ToString())">Eligible</a>
+                                                            <a title="Click to enroll" style="color:red;" href="~/AgencyUser/AddNewChild?id=@Model.Encrypthouseholid&Name=@Model.EncryptedName&OthersId=@FingerprintsModel.EncryptDecrypt.Encrypt64(@item.OthersId.ToString())">Eligible</a>
                                                             }
                                                             else
                                                             {
-                                                                <a style="color:red;" href="javascript:void(0)">Not Eligible</a>
+                                                            <a style="color:red;" href="javascript:void(0)">Not Eligible</a>
                                                             }
 
-                                                            <button class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i><a href="javascript:void(0)" style="color:#fff;" accesskey="@item.OthersId" onclick="GetOther(this);">&nbsp;Edit</a></button>
-                                                        </div>
-                                                    </div>
+                                                    <button class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i><a href="javascript:void(0)" style="color:#fff;" accesskey="@item.OthersId" onclick="GetOther(this);">&nbsp;Edit</a></button>
                                                 </div>
+                                            </div>
+                                        </div>
                                             }
                                         }
                                         else
                                         {
-                                            <div class="info-none"><p>- None -</p></div>
+                                        <div class="info-none"><p>- None -</p></div>
                                         }
 
 
@@ -3091,52 +3089,52 @@
                                     {
                                         foreach (var item in Model._Elist)
                                         {
-                                            <div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
-                                                <div class="house-hold">
-                                                    <div class="hld-img">
-                                                        @if (string.IsNullOrEmpty(item.EImagejson) && item.EGender == "2")
+                                    <div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
+                                        <div class="house-hold">
+                                            <div class="hld-img">
+                                                @if (string.IsNullOrEmpty(item.EImagejson) && item.EGender == "2")
                                                         {
-                                                            <img src="~/Content/img/ic_female.png" />
+                                                        <img src="~/Content/img/ic_female.png" />
                                                         }
                                                         else if (string.IsNullOrEmpty(item.EImagejson) && item.EGender == "1")
                                                         {
-                                                            <img src="~/Content/img/ic_male.png" />
+                                                        <img src="~/Content/img/ic_male.png" />
                                                         }
                                                         else if (string.IsNullOrEmpty(item.EImagejson) && item.EGender == "3")
                                                         {
-                                                            <img src="~/Content/img/ic_male_default.png" />
+                                                        <img src="~/Content/img/ic_male_default.png" />
                                                         }
                                                         else if (!string.IsNullOrEmpty(item.EImagejson))
                                                         {
-                                                            <img width="108" height="108" src="data:image/jpg;base64,@item.EImagejson" />
+                                                        <img width="108" height="108" src="data:image/jpg;base64,@item.EImagejson" />
                                                         }
                                                         else
                                                         {
-                                                            <img width="108" height="108" src="~/Content/img/download.jpg" />
+                                                        <img width="108" height="108" src="~/Content/img/download.jpg" />
                                                         }
-                                                    </div>
-                                                    <div class="det-cont" style="min-height: 130px;">
-                                                        <h4>@item.Efirstname</h4>
-                                                        <ul>
-                                                            <li><p>@item.Gender</p><span>@item.EDOB</span></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="home-fft" style="margin: 10px 0 0;">
-                                                        <a href="javascript:void(0)" accesskey="@item.EmegencyId" onclick="Getemergencycontact(this);" style="padding:15px;float: right; color: #fff;background-color:#5cb85c;border-radius: 4px;">View</a>
-
-
-                                                        <a href="javascript:void(0)" accesskey="@item.EmegencyId" onclick="deleteEmergencycontact(this);" style="padding:15px;float: right;color: #fff;margin-right: 15px;background-color:#e74c3c;border-radius: 4px; ">Delete</a>
-
-
-                                                        @*<button class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i><a href="javascript:void(0)" accesskey="@item.OthersId" onclick="GetOther(this);">Edit</a></button>*@
-                                                    </div>
-                                                </div>
                                             </div>
+                                            <div class="det-cont" style="min-height: 130px;">
+                                                <h4>@item.Efirstname</h4>
+                                                <ul>
+                                                    <li><p>@item.Gender</p><span>@item.EDOB</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="home-fft" style="margin: 10px 0 0;">
+                                                <a href="javascript:void(0)" accesskey="@item.EmegencyId" onclick="Getemergencycontact(this);" style="padding:15px;float: right; color: #fff;background-color:#5cb85c;border-radius: 4px;">View</a>
+
+
+                                                <a href="javascript:void(0)" accesskey="@item.EmegencyId" onclick="deleteEmergencycontact(this);" style="padding:15px;float: right;color: #fff;margin-right: 15px;background-color:#e74c3c;border-radius: 4px; ">Delete</a>
+
+
+                                                @*<button class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i><a href="javascript:void(0)" accesskey="@item.OthersId" onclick="GetOther(this);">Edit</a></button>*@
+                                            </div>
+                                        </div>
+                                    </div>
                                         }
                                     }
                                     else
                                     {
-                                        <div class="info-none"><p>- None -</p></div>
+                                    <div class="info-none"><p>- None -</p></div>
                                     }
 
                                 </div>
@@ -3154,45 +3152,45 @@
                                     {
                                         foreach (var item in Model._Rlist)
                                         {
-                                            <div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
-                                                <div class="house-hold">
-                                                    <div class="hld-img">
-                                                        @if (string.IsNullOrEmpty(item.RImagejson) && item.EGender == "2")
+                                    <div class="col-md-6 col-lg-4 col-sm-12 col-xs-12">
+                                        <div class="house-hold">
+                                            <div class="hld-img">
+                                                @if (string.IsNullOrEmpty(item.RImagejson) && item.EGender == "2")
                                                         {
-                                                            <img src="~/Content/img/ic_female.png" />
+                                                        <img src="~/Content/img/ic_female.png" />
                                                         }
                                                         else if (string.IsNullOrEmpty(item.RImagejson) && item.EGender == "1")
                                                         {
-                                                            <img src="~/Content/img/ic_male.png" />
+                                                        <img src="~/Content/img/ic_male.png" />
                                                         }
                                                         else if (!string.IsNullOrEmpty(item.RImagejson))
                                                         {
-                                                            <img width="108" height="108" src="data:image/jpg;base64,@item.RImagejson" />
+                                                        <img width="108" height="108" src="data:image/jpg;base64,@item.RImagejson" />
                                                         }
                                                         else
                                                         {
-                                                            <img width="108" height="108" src="~/Content/img/download.jpg" />
+                                                        <img width="108" height="108" src="~/Content/img/download.jpg" />
                                                         }
-                                                    </div>
-                                                    <div class="det-cont" style="min-height: 130px;">
-                                                        <h4>@item.Efirstname</h4>
-                                                        <ul>
-                                                            <li><p>@item.Rfirstname</p><span>@item.EDOB</span></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="home-fft" style="padding:20px;">
-                                                        <a href="javascript:void(0)" accesskey="@item.RestrictedId" onclick="GetRestricted(this);" style="padding:15px;float: right; color: #fff;background-color:#5cb85c;border-radius: 4px;">View</a>&nbsp;
-                                                        <a href="javascript:void(0)" onclick="deleteRestricted(this);" accesskey="@item.RestrictedId" style="padding:15px;float: right;color: #fff;margin-right: 15px;background-color:#e74c3c;border-radius: 4px; ">Delete</a>
-
-                                                        @*<button class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i><a href="javascript:void(0)" accesskey="@item.OthersId" onclick="GetOther(this);">Edit</a></button>*@
-                                                    </div>
-                                                </div>
                                             </div>
+                                            <div class="det-cont" style="min-height: 130px;">
+                                                <h4>@item.Efirstname</h4>
+                                                <ul>
+                                                    <li><p>@item.Rfirstname</p><span>@item.EDOB</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="home-fft" style="padding:20px;">
+                                                <a href="javascript:void(0)" accesskey="@item.RestrictedId" onclick="GetRestricted(this);" style="padding:15px;float: right; color: #fff;background-color:#5cb85c;border-radius: 4px;">View</a>&nbsp;
+                                                <a href="javascript:void(0)" onclick="deleteRestricted(this);" accesskey="@item.RestrictedId" style="padding:15px;float: right;color: #fff;margin-right: 15px;background-color:#e74c3c;border-radius: 4px; ">Delete</a>
+
+                                                @*<button class="btn btn-success"><i class="fa fa-pencil" aria-hidden="true"></i><a href="javascript:void(0)" accesskey="@item.OthersId" onclick="GetOther(this);">Edit</a></button>*@
+                                            </div>
+                                        </div>
+                                    </div>
                                         }
                                     }
                                     else
                                     {
-                                        <div class="info-none"><p>- None -</p></div>
+                                    <div class="info-none"><p>- None -</p></div>
                                     }
 
                                 </div>
@@ -3354,30 +3352,30 @@
                                     </div>
                                     @if (Model.docstorage == 0)
                                     {
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                <label>Address Verification Form (pdf,jpg,jpeg,bmp,gif,png) </label>
-                                                @Html.TextBoxFor(m => m.FileaddressAvatar, new { id = "FileaddressAvatar", Name = "FileaddressAvatar", type = "file", onchange = "ValidateSingleInputpdf(this)", @class = "form-control", @accept = "image/*", @capture = "camera", @style = "width:43%;", tabIndex = "6" })
-                                                <div class="cont-sz" style="width: 85px;display:none; margin-left: 10px; float: right;">
-                                                    @Html.CheckBoxFor(m => m.AdresssverificationinPaper, new { @class = "minimal", tabIndex = "7" })
-                                                    <label style="width:45px;">Paper</label>
-                                                </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Address Verification Form (pdf,jpg,jpeg,bmp,gif,png) </label>
+                                            @Html.TextBoxFor(m => m.FileaddressAvatar, new { id = "FileaddressAvatar", Name = "FileaddressAvatar", type = "file", onchange = "ValidateSingleInputpdf(this)", @class = "form-control", @accept = "image/*", @capture = "camera", @style = "width:43%;", tabIndex = "6" })
+                                            <div class="cont-sz" style="width: 85px;display:none; margin-left: 10px; float: right;">
+                                                @Html.CheckBoxFor(m => m.AdresssverificationinPaper, new { @class = "minimal", tabIndex = "7" })
+                                                <label style="width:45px;">Paper</label>
                                             </div>
                                         </div>
+                                    </div>
                                     }
                                     @if (Model.docstorage == 2)
                                     {
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                <label>Address Verification Form</label>
-                                                <div class="cont-sz">
-                                                    @Html.CheckBoxFor(m => m.AdresssverificationinPaper, new { @class = "minimal", tabIndex = "7" })
-                                                    <label style="width:45px;">Paper</label>
-                                                </div>
-                                                @Html.TextBoxFor(m => m.FileaddressAvatar, new { id = "FileaddressAvatar", Name = "FileaddressAvatar", type = "file", onchange = "ValidateSingleInputpdf(this)", @class = "form-control", @accept = "image/*", @capture = "camera", @style = "width:43%;display:none;", tabIndex = "6" })
-
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Address Verification Form</label>
+                                            <div class="cont-sz">
+                                                @Html.CheckBoxFor(m => m.AdresssverificationinPaper, new { @class = "minimal", tabIndex = "7" })
+                                                <label style="width:45px;">Paper</label>
                                             </div>
+                                            @Html.TextBoxFor(m => m.FileaddressAvatar, new { id = "FileaddressAvatar", Name = "FileaddressAvatar", type = "file", onchange = "ValidateSingleInputpdf(this)", @class = "form-control", @accept = "image/*", @capture = "camera", @style = "width:43%;display:none;", tabIndex = "6" })
+
                                         </div>
+                                    </div>
                                     }
                                 </div>
 
@@ -3856,7 +3854,7 @@
                                                     relation.Add(new SelectListItem() { Text = item.Name, Value = item.Id });
                                                 }
 
-                                                @Html.DropDownListFor(m => m.ERelationwithchild, new SelectList(relation, "Value", "Text"), new { @class = "form-control" })
+                                            @Html.DropDownListFor(m => m.ERelationwithchild, new SelectList(relation, "Value", "Text"), new { @class = "form-control" })
                                             }
                                         </div>
                                     </div>
@@ -4329,10 +4327,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
                         </div>
                     </div>
                     <div class="col-xs-12 bdr-popup"></div>

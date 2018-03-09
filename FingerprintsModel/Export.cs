@@ -73,7 +73,7 @@ namespace FingerprintsModel
             {
                 clsError.WriteException(ex);
             }
-           
+
         }
 
         public MemoryStream Exportexcel(Agencyreport Agencyreport)
@@ -111,14 +111,14 @@ namespace FingerprintsModel
                 vs.Cell(row, 2).Value = Agencyreport.totalreplaced;
                 vs.Cell(row, 3).Value = Agencyreport.totalreplacedcontrator;
                 vs.Range("A7:C7").Merge().Value = "Program completing the PIR survey for the first time should report the number of staff who left since the program began.";
-               
+
                 wb.SaveAs(memoryStream);
                 //memoryStream.WriteTo(strExcel);
-                
+
             }
             catch (Exception ex)
             {
-                clsError.WriteException( ex);
+                clsError.WriteException(ex);
             }
             return memoryStream;
         }
@@ -249,9 +249,9 @@ namespace FingerprintsModel
             catch (Exception ex)
             {
                 clsError.WriteException(ex);
-                
+
             }
-            
+
         }
 
         public void ExportPdf2(FPA obj, Stream PDFData, string imagepath)
@@ -418,225 +418,7 @@ namespace FingerprintsModel
             writer.DirectContent.AddOutline(outline, "Name = " + Title);
         }
 
-        public MemoryStream ExportExcelScreeningMatrix( ScreeningMatrix ScreeningMatrix   )
-        {
-             MemoryStream memoryStream = new MemoryStream();
-            try
-            {
-                List<List<string>> screening = ScreeningMatrix.Screenings;
-                XLWorkbook wb = new XLWorkbook();
-                var vs = wb.Worksheets.Add("Missing Screening report");
-                vs.Range("B1:H1").Merge().Value = "Missing Screening Collection report for "+ ScreeningMatrix.ClientsClassroom[0].CenterName   +" on " +DateTime.Now.ToString("MM/dd/yyyy");
-                vs.Range("B1:H1").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                vs.Range("B1:H1").Style.Font.SetBold(true);
-
-               // int Reportcolumn = 2;
-                int ReportRow = 3;
-               //    for (var i = 1; i < screening[0].Count; i++)
-               //    {
-               //        vs.Cell(3, Reportcolumn).Value = screening[0][i];
-               //        vs.Cell(3, Reportcolumn).Style.Font.SetBold(true);
-               //        Reportcolumn++;
-               //    }
-               //ReportRow = 5;
-               //for (var i = 1; i < screening.Count; i++)
-               //{
-               //    Reportcolumn = 2;
-               //    for (var j = 1; j < screening[i].Count; j++)
-               //    {
-               //        if (j == 1)
-               //        {
-               //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j];
-               //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
-               //            _column.Width =20;
-               //        }
-               //        else if (screening[i][j]=="M")
-               //        {
-               //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j];
-               //            vs.Cell(ReportRow, Reportcolumn).AsRange().Style.Font.FontColor = XLColor.FromHtml("#295b8f");
-               //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
-               //            _column.Width = 10;
-               //        }
-               //        else if (screening[i][j].Contains("ScreeningDate"))
-               //        {
-               //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j].Replace("ScreeningDate","");
-               //            vs.Cell(ReportRow, Reportcolumn).Style.NumberFormat.Format = "mm/dd/yyyy";
-               //            vs.Cell(ReportRow, Reportcolumn).AsRange().Style.Font.FontColor = XLColor.FromArgb(0, 132, 209);
-               //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
-               //            _column.Width = 10;
-               //        }
-               //        else if (screening[i][j].Contains("ExpiringDate"))
-               //        {
-               //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j].Replace("ExpiringDate", "");
-               //            vs.Cell(ReportRow, Reportcolumn).Style.NumberFormat.Format = "mm/dd/yyyy";
-               //            vs.Cell(ReportRow, Reportcolumn).AsRange().Style.Font.FontColor = XLColor.Orange;
-               //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
-               //            _column.Width = 10;
-               //        }
-               //        else if (screening[i][j].Contains("ExpiredDate"))
-               //        {
-               //            vs.Cell(ReportRow, Reportcolumn).Value = "X";
-               //            vs.Cell(ReportRow, Reportcolumn).AsRange().Style.Font.FontColor = XLColor.Red;
-               //            vs.Cell(ReportRow, Reportcolumn).Comment.AddText(screening[i][j].Replace("ExpiredDate",""));
-               //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
-               //            _column.Width = 10;
-               //        }
-               //        else if (screening[i][j] != "")
-               //        {
-               //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j];
-               //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
-               //            _column.Width = 10;
-               //        }
-               //        else
-               //        {
-               //            vs.Cell(ReportRow, Reportcolumn).Value = "REFUSED";
-               //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
-               //            _column.Width = 10;
-               //        }
-               //        Reportcolumn++;
-               //    }
-               //    ReportRow++;
-               //}
-               //ReportRow++;
-               //int Status = 0;
-               //int missingorexpired = 0;
-               //int completed = 0; 
-               //for (var j = 0; j < 4; j++) {
-               //    ReportRow++;
-               //    Reportcolumn = 2;
-               //    Status = 0;
-               //    for (var i = 0; i < screening[0].Count -1 ; i++)
-               //    {
-               //        if (i == 0)
-               //        {
-               //            if (j == 0)
-               //            {
-               //                vs.Cell(ReportRow, 2).Value = "Complete";
-               //            }
-               //            if (j == 1)
-               //            {
-               //                vs.Cell(ReportRow, 2).Value = "Missing";
-               //                vs.Cell(ReportRow, 2).AsRange().Style.Font.FontColor = XLColor.FromHtml("#295b8f");
-               //            }
-               //            if (j == 2)
-               //            {
-               //                vs.Cell(ReportRow, 2).Value = "Expired";
-               //                vs.Cell(ReportRow, 2).AsRange().Style.Font.FontColor = XLColor.Red;
-               //            }
-               //            if (j == 3)
-               //            {
-               //                vs.Cell(ReportRow, 2).Value = "Expiring";
-               //                vs.Cell(ReportRow, 2).AsRange().Style.Font.FontColor = XLColor.Orange;
-               //            }
-               //        }
-               //        else
-               //        {
-               //            var count = 0;
-               //            if (j == 0)
-               //            {
-               //                for (var k = 1; k < screening.Count; k++)
-               //                {   
-               //                    if (screening[k][i + 1].Contains("ScreeningDate"))
-               //                        count = count + 1;
-               //                }
-               //                vs.Cell(ReportRow, Reportcolumn).Value = count;
-               //                Status = Status + count;
-               //                completed = completed + count;
-               //            }
-               //            count = 0;
-               //            if (j == 1)
-               //            {
-               //                for (var k = 1; k < screening.Count; k++)
-               //                {
-               //                    if (screening[k][i + 1] == "M")
-               //                        count = count + 1;
-               //                }
-               //                vs.Cell(ReportRow, Reportcolumn).Value = count;
-               //                Status = Status + count;
-               //                missingorexpired = missingorexpired + count;
-               //            }
-               //            count = 0;
-               //            if (j == 2)
-               //            {
-               //                for (var k = 1; k < screening.Count; k++)
-               //                {
-               //                    if (screening[k][i + 1].Contains("ExpiredDate"))
-               //                        count = count + 1;
-               //                }
-               //                vs.Cell(ReportRow, Reportcolumn).Value = count;
-               //                Status = Status + count;
-               //                missingorexpired = missingorexpired + count;
-               //            }
-               //            count = 0;
-               //            if (j == 3)
-               //            {
-               //                for (var k = 1; k < screening.Count; k++)
-               //                {
-               //                    if (screening[k][i + 1].Contains("ExpiringDate"))
-               //                        count = count + 1;
-               //                }
-               //                vs.Cell(ReportRow, Reportcolumn).Value = count;
-               //                Status = Status + count;
-               //            }
-               //            count = 0;
-               //        }
-               //        Reportcolumn++;
-               //    }
-               //    vs.Cell(ReportRow, Reportcolumn + 1).Value = Status;
-               //}
-               //vs.Cell(ReportRow + 2, 2).Value = "Total missing or expired records";
-               //vs.Cell(ReportRow + 2, 2).Style.Font.SetBold(true);
-               //vs.Cell(ReportRow + 2, 3).Value = missingorexpired;
-               //vs.Cell(ReportRow + 2, 4).Value = "Total completed screening";
-               //vs.Cell(ReportRow + 2, 4).Style.Font.SetBold(true);
-               //vs.Cell(ReportRow + 2, 5).Value = completed;
-               //ReportRow = ReportRow + 4;
-
-
-
-               vs.Cell(ReportRow, 2).Value="Client Name";
-               vs.Cell(ReportRow, 2).Style.Font.SetBold(true);
-               vs.Cell(ReportRow, 3).Value = "Classroom";
-               IXLColumn _column1 = vs.Cell(ReportRow, 3).WorksheetColumn();
-               _column1.Width = 15;
-               vs.Cell(ReportRow, 3).Style.Font.SetBold(true);
-               vs.Cell(ReportRow, 4).Value = "Date";
-               vs.Cell(ReportRow, 4).Style.Font.SetBold(true);
-               vs.Cell(ReportRow, 5).Value = "Status";
-               vs.Cell(ReportRow, 5).Style.Font.SetBold(true);
-               vs.Cell(ReportRow, 6).Value = "Notes";
-               vs.Cell(ReportRow, 6).Style.Font.SetBold(true);
-               ReportRow = ReportRow + 2;
-               foreach(string clientid in ScreeningMatrix.ClientsClassroom.Select(P => P.Eclientid).Distinct() )
-               {
-                   foreach (var item in ScreeningMatrix.ClientsClassroom.Where( P=>P.Eclientid == clientid))
-                   {
-                       vs.Cell(ReportRow, 2).Value = item.Name;
-                       vs.Cell(ReportRow, 3).Value = item.ClassroomName;
-                       //vs.Cell(ReportRow, 4).Value ="Date";
-                       //vs.Cell(ReportRow, 5).Value ="Status";
-                       //vs.Cell(ReportRow, 6).Value = "Notes";
-
-                   }
-                   ReportRow = ReportRow + 2;
-                   foreach (var item in ScreeningMatrix.ClientsClassroom.Where(P => P.Eclientid == clientid))
-                   {
-                       vs.Cell(ReportRow, 3).Value = item.ScreeningName;
-                       ReportRow++;
-                   }
-                   ReportRow++;
-               }
-                wb.SaveAs(memoryStream);
-            }
-            catch (Exception ex)
-            {
-                clsError.WriteException(ex);
-            }
-            return memoryStream;
-        }
-
-
-        public MemoryStream ExportERSEACenterAnalysisReport(ScreeningMatrix ScreeningMatrix)
+        public MemoryStream ExportExcelScreeningMatrix(ScreeningMatrix ScreeningMatrix)
         {
             MemoryStream memoryStream = new MemoryStream();
             try
@@ -650,7 +432,167 @@ namespace FingerprintsModel
 
                 // int Reportcolumn = 2;
                 int ReportRow = 3;
-               
+                //    for (var i = 1; i < screening[0].Count; i++)
+                //    {
+                //        vs.Cell(3, Reportcolumn).Value = screening[0][i];
+                //        vs.Cell(3, Reportcolumn).Style.Font.SetBold(true);
+                //        Reportcolumn++;
+                //    }
+                //ReportRow = 5;
+                //for (var i = 1; i < screening.Count; i++)
+                //{
+                //    Reportcolumn = 2;
+                //    for (var j = 1; j < screening[i].Count; j++)
+                //    {
+                //        if (j == 1)
+                //        {
+                //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j];
+                //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
+                //            _column.Width =20;
+                //        }
+                //        else if (screening[i][j]=="M")
+                //        {
+                //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j];
+                //            vs.Cell(ReportRow, Reportcolumn).AsRange().Style.Font.FontColor = XLColor.FromHtml("#295b8f");
+                //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
+                //            _column.Width = 10;
+                //        }
+                //        else if (screening[i][j].Contains("ScreeningDate"))
+                //        {
+                //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j].Replace("ScreeningDate","");
+                //            vs.Cell(ReportRow, Reportcolumn).Style.NumberFormat.Format = "mm/dd/yyyy";
+                //            vs.Cell(ReportRow, Reportcolumn).AsRange().Style.Font.FontColor = XLColor.FromArgb(0, 132, 209);
+                //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
+                //            _column.Width = 10;
+                //        }
+                //        else if (screening[i][j].Contains("ExpiringDate"))
+                //        {
+                //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j].Replace("ExpiringDate", "");
+                //            vs.Cell(ReportRow, Reportcolumn).Style.NumberFormat.Format = "mm/dd/yyyy";
+                //            vs.Cell(ReportRow, Reportcolumn).AsRange().Style.Font.FontColor = XLColor.Orange;
+                //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
+                //            _column.Width = 10;
+                //        }
+                //        else if (screening[i][j].Contains("ExpiredDate"))
+                //        {
+                //            vs.Cell(ReportRow, Reportcolumn).Value = "X";
+                //            vs.Cell(ReportRow, Reportcolumn).AsRange().Style.Font.FontColor = XLColor.Red;
+                //            vs.Cell(ReportRow, Reportcolumn).Comment.AddText(screening[i][j].Replace("ExpiredDate",""));
+                //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
+                //            _column.Width = 10;
+                //        }
+                //        else if (screening[i][j] != "")
+                //        {
+                //            vs.Cell(ReportRow, Reportcolumn).Value = screening[i][j];
+                //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
+                //            _column.Width = 10;
+                //        }
+                //        else
+                //        {
+                //            vs.Cell(ReportRow, Reportcolumn).Value = "REFUSED";
+                //            IXLColumn _column = vs.Cell(ReportRow, Reportcolumn).WorksheetColumn();
+                //            _column.Width = 10;
+                //        }
+                //        Reportcolumn++;
+                //    }
+                //    ReportRow++;
+                //}
+                //ReportRow++;
+                //int Status = 0;
+                //int missingorexpired = 0;
+                //int completed = 0; 
+                //for (var j = 0; j < 4; j++) {
+                //    ReportRow++;
+                //    Reportcolumn = 2;
+                //    Status = 0;
+                //    for (var i = 0; i < screening[0].Count -1 ; i++)
+                //    {
+                //        if (i == 0)
+                //        {
+                //            if (j == 0)
+                //            {
+                //                vs.Cell(ReportRow, 2).Value = "Complete";
+                //            }
+                //            if (j == 1)
+                //            {
+                //                vs.Cell(ReportRow, 2).Value = "Missing";
+                //                vs.Cell(ReportRow, 2).AsRange().Style.Font.FontColor = XLColor.FromHtml("#295b8f");
+                //            }
+                //            if (j == 2)
+                //            {
+                //                vs.Cell(ReportRow, 2).Value = "Expired";
+                //                vs.Cell(ReportRow, 2).AsRange().Style.Font.FontColor = XLColor.Red;
+                //            }
+                //            if (j == 3)
+                //            {
+                //                vs.Cell(ReportRow, 2).Value = "Expiring";
+                //                vs.Cell(ReportRow, 2).AsRange().Style.Font.FontColor = XLColor.Orange;
+                //            }
+                //        }
+                //        else
+                //        {
+                //            var count = 0;
+                //            if (j == 0)
+                //            {
+                //                for (var k = 1; k < screening.Count; k++)
+                //                {   
+                //                    if (screening[k][i + 1].Contains("ScreeningDate"))
+                //                        count = count + 1;
+                //                }
+                //                vs.Cell(ReportRow, Reportcolumn).Value = count;
+                //                Status = Status + count;
+                //                completed = completed + count;
+                //            }
+                //            count = 0;
+                //            if (j == 1)
+                //            {
+                //                for (var k = 1; k < screening.Count; k++)
+                //                {
+                //                    if (screening[k][i + 1] == "M")
+                //                        count = count + 1;
+                //                }
+                //                vs.Cell(ReportRow, Reportcolumn).Value = count;
+                //                Status = Status + count;
+                //                missingorexpired = missingorexpired + count;
+                //            }
+                //            count = 0;
+                //            if (j == 2)
+                //            {
+                //                for (var k = 1; k < screening.Count; k++)
+                //                {
+                //                    if (screening[k][i + 1].Contains("ExpiredDate"))
+                //                        count = count + 1;
+                //                }
+                //                vs.Cell(ReportRow, Reportcolumn).Value = count;
+                //                Status = Status + count;
+                //                missingorexpired = missingorexpired + count;
+                //            }
+                //            count = 0;
+                //            if (j == 3)
+                //            {
+                //                for (var k = 1; k < screening.Count; k++)
+                //                {
+                //                    if (screening[k][i + 1].Contains("ExpiringDate"))
+                //                        count = count + 1;
+                //                }
+                //                vs.Cell(ReportRow, Reportcolumn).Value = count;
+                //                Status = Status + count;
+                //            }
+                //            count = 0;
+                //        }
+                //        Reportcolumn++;
+                //    }
+                //    vs.Cell(ReportRow, Reportcolumn + 1).Value = Status;
+                //}
+                //vs.Cell(ReportRow + 2, 2).Value = "Total missing or expired records";
+                //vs.Cell(ReportRow + 2, 2).Style.Font.SetBold(true);
+                //vs.Cell(ReportRow + 2, 3).Value = missingorexpired;
+                //vs.Cell(ReportRow + 2, 4).Value = "Total completed screening";
+                //vs.Cell(ReportRow + 2, 4).Style.Font.SetBold(true);
+                //vs.Cell(ReportRow + 2, 5).Value = completed;
+                //ReportRow = ReportRow + 4;
+
+
 
                 vs.Cell(ReportRow, 2).Value = "Client Name";
                 vs.Cell(ReportRow, 2).Style.Font.SetBold(true);
@@ -692,8 +634,9 @@ namespace FingerprintsModel
             }
             return memoryStream;
         }
-		
-		public MemoryStream ExportERSEACenterAnalysisReport(string reportFor, ChildrenInfoClass infoClass, List<SelectListItem> parentList, bool isAllCenter)
+
+
+        public MemoryStream ExportERSEACenterAnalysisReport(string reportFor, ChildrenInfoClass infoClass, List<SelectListItem> parentList, bool isAllCenter)
         {
             MemoryStream memoryStream = new MemoryStream();
             try
@@ -1509,6 +1452,23 @@ namespace FingerprintsModel
                             workSheet.Cell(ReportRow, 6).Style.Font.SetBold(true);
                             workSheet.Cell(ReportRow, 6).WorksheetColumn().Width = 15;
 
+                            workSheet.Cell(ReportRow, 7).Value = "FSW Assigned";
+                            workSheet.Cell(ReportRow, 7).Style.Font.SetBold(true);
+                            workSheet.Cell(ReportRow, 7).WorksheetColumn().Width = 15;
+
+                            workSheet.Cell(ReportRow, 8).Value = "Contacted by FSW";
+                            workSheet.Cell(ReportRow, 8).Style.Font.SetBold(true);
+                            workSheet.Cell(ReportRow, 8).WorksheetColumn().Width = 15;
+
+                            workSheet.Cell(ReportRow, 9).Value = "Disability";
+                            workSheet.Cell(ReportRow, 9).Style.Font.SetBold(true);
+                            workSheet.Cell(ReportRow, 9).WorksheetColumn().Width = 15;
+                        }
+                        else
+                        {
+                            workSheet.Cell(ReportRow, 6).Value = "FSW Assigned";
+                            workSheet.Cell(ReportRow, 6).Style.Font.SetBold(true);
+                            workSheet.Cell(ReportRow, 6).WorksheetColumn().Width = 15;
 
                             workSheet.Cell(ReportRow, 7).Value = "Contacted by FSW";
                             workSheet.Cell(ReportRow, 7).Style.Font.SetBold(true);
@@ -1517,15 +1477,6 @@ namespace FingerprintsModel
                             workSheet.Cell(ReportRow, 8).Value = "Disability";
                             workSheet.Cell(ReportRow, 8).Style.Font.SetBold(true);
                             workSheet.Cell(ReportRow, 8).WorksheetColumn().Width = 15;
-                        }
-                        else
-                        {
-                            workSheet.Cell(ReportRow, 6).Value = "Contacted by FSW";
-                            workSheet.Cell(ReportRow, 6).Style.Font.SetBold(true);
-                            workSheet.Cell(ReportRow, 6).WorksheetColumn().Width = 15;
-                            workSheet.Cell(ReportRow, 7).Value = "Disability";
-                            workSheet.Cell(ReportRow, 7).Style.Font.SetBold(true);
-                            workSheet.Cell(ReportRow, 7).WorksheetColumn().Width = 15;
                         }
                     
                         ReportRow = ReportRow + 1;
@@ -1545,15 +1496,18 @@ namespace FingerprintsModel
                             if(isAllCenter)
                             {
                                 workSheet.Cell(ReportRow, 6).Value = item.CenterName;
-                                workSheet.Cell(ReportRow, 7).Value = item.ContactStatus;
-                                workSheet.Cell(ReportRow, 8).Value = item.Disability;
+                                workSheet.Cell(ReportRow, 7).Value = item.FSWName;
+                                workSheet.Cell(ReportRow, 8).Value = item.ContactStatus;
+                                workSheet.Cell(ReportRow, 9).Value = item.Disability;
                             }
                             else
                             {
-                                workSheet.Cell(ReportRow, 6).Value = item.ContactStatus;
-                                workSheet.Cell(ReportRow, 7).Value = item.Disability;
+                                workSheet.Cell(ReportRow, 6).Value = item.FSWName;
+                                workSheet.Cell(ReportRow, 7).Value = item.ContactStatus;
+                                workSheet.Cell(ReportRow, 8).Value = item.Disability;
+
                             }
-                          
+
                             ReportRow++;
                         }
                         break;
@@ -1570,7 +1524,6 @@ namespace FingerprintsModel
             }
             return memoryStream;
         }
-
 
     }
 
@@ -1648,7 +1601,7 @@ namespace FingerprintsModel
                 cb.ShowText(Title);
                 cb.EndText();
             }
-            if ( HeaderRight != string.Empty)
+            if (HeaderRight != string.Empty)
             {
                 PdfPTable HeaderTable = new PdfPTable(2);
                 HeaderTable.DefaultCell.Border = Rectangle.NO_BORDER;
@@ -1680,7 +1633,7 @@ namespace FingerprintsModel
             //show page no in right side of the footer
             //String text = "";
             //float len = bf.GetWidthPoint(text, 8);
-            
+
             //cb.SetRGBColorFill(100, 100, 100);
             //cb.BeginText();
             //cb.SetFontAndSize(bf, 8);
@@ -1692,7 +1645,7 @@ namespace FingerprintsModel
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
             cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER,
-                "powered by: GEFingerPrints™  Copyright 2016, 2017 " ,
+                "powered by: GEFingerPrints™  Copyright 2016, 2017 ",
                 pageSize.GetLeft(315),
                 pageSize.GetBottom(30), 0);
             cb.EndText();

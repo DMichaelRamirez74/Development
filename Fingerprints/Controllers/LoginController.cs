@@ -248,6 +248,7 @@ namespace Fingerprints.Controllers
                 string IPAddress = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
                 bool isCoreTeam = false;
                 bool isDemographic = false;
+                bool isAcceptance = false;
                 if (string.IsNullOrEmpty(IPAddress))
                     IPAddress = Request.ServerVariables["REMOTE_ADDR"];
 
@@ -302,6 +303,8 @@ namespace Fingerprints.Controllers
                         Session["AgencyID"] = UserInfo.AgencyId;
                         isCoreTeam = new LoginData().IsDevelopmentTeam(UserInfo.UserId, UserInfo.AgencyId, UserInfo.roleId);
                         isDemographic= new LoginData().IsDemographic(UserInfo.UserId, UserInfo.AgencyId, UserInfo.roleId);
+                        isAcceptance = new LoginData().IsAcceptance(UserInfo.UserId, UserInfo.AgencyId, UserInfo.roleId);
+
                         if (isCoreTeam)
                         {
                             Session["IsCoreTeam"] = true;
@@ -309,6 +312,10 @@ namespace Fingerprints.Controllers
                         if (isDemographic)
                         {
                             Session["IsDemographic"] = true;
+                        }
+                        if (isAcceptance)
+                        {
+                            Session["isAcceptance"] = true;
                         }
                         if (RoleList != null)
                         {

@@ -197,6 +197,8 @@ namespace FingerprintsModel
 
         public string Enc_ClientId { get; set; }
         public string ClientId { get; set; }
+        public string StaffUserId { get; set; }
+        public string FSWName { get; set; }
     }
 
     public class ClassRoomDetails
