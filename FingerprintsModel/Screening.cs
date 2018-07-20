@@ -5,8 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Data;
+using System.Web.Mvc;
+
 namespace FingerprintsModel
 {
+
+
+    public class ScreeningNew
+    {
+
+       
+        public int ScreeningID { get; set; }
+        public string ScreeningName { get; set; }
+
+     
+
+        public HttpPostedFileBase ApprovedFile { get; set; }
+        public string ApprovedFileName { get; set; }
+        public string ApprovedFileExtension { get; set; }
+        public int ParentAppID { get; set; }
+        public int Approved { get; set; }
+        public string ApprovedImageJson { get; set; }
+        public byte[] ApprovedImageByte { get; set; }
+
+        public bool NoDocument { get; set; }
+        public List<Questions> Questionlist { get; set; }
+
+    }
+
+    public class ScreeningPeriods
+    {
+        public int ScreeningPeriod { get; set; }
+        public int ScreeningPeriodType { get; set; }
+        public string Description { get; set; }
+    }
+
+
+
     public class Screening
     {
         //Changes do not update this file
@@ -22,6 +57,20 @@ namespace FingerprintsModel
           public int ClientID { get; set; }
 
           public int Screeningid { get; set; }
+
+        public List<SelectListItem> ParentList { get; set; }
+
+        public List<ScreeningPeriods> ScreeningPeriodsList { get; set; }
+
+        public string ScreeningParentID { get; set; }
+        public string ParentSignature { get; set; }
+        public List<ScreeningNew> ScreeningList
+        {
+            get;set;
+        }
+
+        public List<ScreeningQ> ScreeningQuestions { get; set; }
+
           public string F001physicalDate { get; set; }
           public string F002physicalResults { get; set; }
           public string F003physicallFOReason { get; set; }
@@ -104,6 +153,7 @@ namespace FingerprintsModel
           public string s080DetailDC2 { get; set; }
           public string s081FOStatus { get; set; }
           public string AddPhysical { get; set; }
+          public string WellBabyExam { get; set; }
           public string AddVision { get; set; }
           public string AddHearing { get; set; }
           public string AddDevelop { get; set; }

@@ -27,6 +27,9 @@ namespace FingerprintsModel
     public class InkindDonors
     {
         public string Name { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string CompanyName { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
@@ -37,6 +40,8 @@ namespace FingerprintsModel
         //    public InkindActivity InkindActivity { get; set; }
 
         public string InkindDonorId { get; set; }
+
+        public int PastPresentParent { get; set; }
 
 
     }
@@ -113,6 +118,8 @@ namespace FingerprintsModel
         public decimal InKindAmount { get; set; }
         public decimal MilesDriven { get; set; }
 
+        public bool ParentType{get;set;}
+
     }
 
 
@@ -149,5 +156,8 @@ namespace FingerprintsModel
         public bool IsInsert { get; set; }
 
         public bool IsCompany { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

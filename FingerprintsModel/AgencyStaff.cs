@@ -63,6 +63,8 @@ namespace FingerprintsModel
         public char AgencyStatus { get; set; }
         public Guid SelectedAgencyId { get; set; }
         public string SelectedRoleId { get; set; }
+        public string ServiceYears { get; set; }
+
         [Display(Name = "Login allowed")]
         public bool LoginAllowed { get; set; }
         public List<Agency> agncylist = new List<Agency>();
@@ -93,7 +95,9 @@ namespace FingerprintsModel
         public string centerlist { get; set; }
         public string Rolelist { get; set; }
 
-     
+        public List<PrimaryLanguages> LangList = new List<PrimaryLanguages>();
+
+
 
         public List<HrCenterInfo> centers = new List<HrCenterInfo>();
         public int Id
@@ -134,6 +138,7 @@ namespace FingerprintsModel
     public class HrCenterInfo
     {
         public string CenterId { get; set; }
+        public string Enc_CenterID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string Zip { get; set; }
@@ -142,6 +147,7 @@ namespace FingerprintsModel
         public string option1 { get; set; }
         public string option2 { get; set; }
         public string option3 { get; set; }
+        public string FutureWaiting { get; set; }
         public string Routecode100 { get; set; }
         public string Routecode101 { get; set; }
         public string Routecode102 { get; set; }
@@ -169,6 +175,7 @@ namespace FingerprintsModel
         public string MissingScreening { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
+        public int IsWithdrawn { get; set; }
         public string DOB { get; set; }
         public string MissingScreeningdate { get; set; }
         public string MissingScreeningstatus { get; set; }
@@ -213,12 +220,30 @@ namespace FingerprintsModel
         public List<SelectListItem> AbsenceReasonList { get; set; }
         public List<SelectListItem> AbsenceTypeList { get; set; }
 
- public decimal Age { get; set; }
+        public bool IsScreeningFollowUpReq { get; set; }
+
+        public bool IsScreeningFollowUpComplete { get; set; }
+
+        public int ReferenceProg { get; set; }
+
+        public bool IsFutureWithdrawal { get; set; }
+
+        public decimal Age { get; set; }
 
         public int IsPreg { get; set; }
+        public int IsClassStarted { get; set; }
+        public int PrimaryInsurance { get; set; }
 
         public List<CenterAndClassRoom> CenterAndClassRoom { get; set; }
         public List<CaseNoteDetails> CaseNoteDetails { get; set; }
+        public int FamilyHomeless { get; set; }
+
+        public bool IsShowTransition { get; set; }
+        public string TransitionColor{get;set;}
+
+        public int TransitionType { get; set; }
+
+        public string Returning { get; set; }
     }
   public class CenterAndClassRoom
     {
@@ -239,6 +264,7 @@ namespace FingerprintsModel
         public string clientid { get; set; }
         public string Staffid { get; set; }
         public string CaseNoteid { get; set; }
+        public string WrittenBy { get; set; }
         public string Name { get; set; }
         public string BY { get; set; }
         public string Title { get; set; }
@@ -255,7 +281,13 @@ namespace FingerprintsModel
 
 
 
-
+    public class CaseNoteByClientID
+    {
+        public string Role { get; set; }
+        public List<CaseNote> CaseNoteList { get; set; }
+        public List<RosterNew.User> UserList { get; set; }
+        public List<RosterNew.User> ClientList { get; set; }
+    }
 
 
     public class Waitinginfo
@@ -314,6 +346,7 @@ namespace FingerprintsModel
         public string Name { get; set; }
         public int ClassroomID { get; set; }//
         public int ClassAssignId { get; set; }
+        public bool IsSelected { get; set; }
 
     }
 
@@ -323,9 +356,27 @@ namespace FingerprintsModel
         public string RoleName { get; set; }
         public bool IsCoreTean { get; set; }
         public string UserColor { get; set; }
-       
+    }
+
+
+    public class PIRAccessRoles
+    {
+        public Guid RoleId { get; set; }
+        public string RoleName { get; set; }
+        public bool IsAccessPIR { get; set; }
+
 
     }
+
+    public class IncomeReviewRoles
+    {
+        public Guid RoleId { get; set; }
+        public string RoleName { get; set; }
+        public bool IsReviewIncome { get; set; }
+    }
+
+    
+
     public class AcceptanceProcess
     {
         public string RoleId { get; set; }
@@ -385,6 +436,7 @@ namespace FingerprintsModel
     public class ClientWaitingList
     {
         public string Id { get; set; }
+        public bool IsHomeBased { get; set; }
         public string ClientId { get; set; }
         public string HouseholdId { get; set; }
         public string HouseholdIdencrypted { get; set; }
@@ -400,6 +452,7 @@ namespace FingerprintsModel
         public string TotalChoice { get; set; }
         public string Option { get; set; }
         public string Notes { get; set; }
+        public string IsReviewed { get; set; }
         public List<UserInfo> UserList { get; set; }
         public List<FamilyHousehold.Programdetail> ProgramsList { get; set; }
 
@@ -443,7 +496,7 @@ namespace FingerprintsModel
         //
         public string CParentDisable { get; set; }
         public List<UserInfo> UserList { get; set; }
-        public List<UserInfo> UserList1 { get; set; }
+        public List<UserInfo> FSWList { get; set; }
         public List<UserInfo> UserListNutrition { get; set; }
 
     }

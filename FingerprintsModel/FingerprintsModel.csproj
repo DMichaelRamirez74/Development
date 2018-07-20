@@ -67,10 +67,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsenceReason.cs" />
+    <Compile Include="AcceptanceProcessStatus.cs" />
+    <Compile Include="AccessRoles.cs" />
     <Compile Include="Acronym.cs" />
     <Compile Include="Agency.cs" />
     <Compile Include="AgencyStaff.cs" />
     <Compile Include="AnnualAssessment.cs" />
+    <Compile Include="Areas.cs" />
     <Compile Include="AssessmentCategory.cs" />
     <Compile Include="AssessmentGroup.cs" />
     <Compile Include="AssessmentResults.cs" />
@@ -100,6 +103,7 @@
     <Compile Include="DisableNotes.cs" />
     <Compile Include="Disablities_Type.cs" />
     <Compile Include="DissabilityManagerDashboard.cs" />
+    <Compile Include="Divisions.cs" />
     <Compile Include="DomainObservationResults.cs" />
     <Compile Include="EductionMaterial.cs" />
     <Compile Include="EncryptDecrypt.cs" />
@@ -110,6 +114,7 @@
     <Compile Include="ExternalLeadsFamily.cs" />
     <Compile Include="FacilitesModel.cs" />
     <Compile Include="FamilyHousehold.cs" />
+    <Compile Include="FamilyHouseless.cs" />
     <Compile Include="FamilyOverride.cs" />
     <Compile Include="FPA.cs" />
     <Compile Include="FPACategory.cs" />
@@ -118,14 +123,17 @@
     <Compile Include="Holiday.cs" />
     <Compile Include="Immunization.cs" />
     <Compile Include="Inkind.cs" />
+    <Compile Include="InternalReferral.cs" />
     <Compile Include="InvoiceDetails.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="MatchProviderModel.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="MatrixScore.cs" />
     <Compile Include="MatrixSummary.cs" />
+    <Compile Include="MentalHealthDashboard.cs" />
     <Compile Include="Monitoring.cs" />
     <Compile Include="MyProfile.cs" />
+    <Compile Include="NewProgramYearTransition.cs" />
     <Compile Include="Nurse.cs" />
     <Compile Include="ObservationNotes.cs" />
     <Compile Include="OrganizatonDetail.cs" />
@@ -136,6 +144,7 @@
     <Compile Include="PDFGeneration.cs" />
     <Compile Include="PendingApproval.cs" />
     <Compile Include="pendingApprovals.cs" />
+    <Compile Include="PIRAccessStaffs.cs" />
     <Compile Include="PIRModel.cs" />
     <Compile Include="ProgramType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,7 +158,9 @@
     <Compile Include="Scheduler.cs" />
     <Compile Include="SchoolDistrict.cs" />
     <Compile Include="Screening.cs" />
+    <Compile Include="ScreeningAccess.cs" />
     <Compile Include="ScreeningSuperAdmin.cs" />
+    <Compile Include="MoveSeats.cs" />
     <Compile Include="SelectPoints.cs" />
     <Compile Include="SendMail.cs" />
     <Compile Include="Slots.cs" />
@@ -163,6 +174,7 @@
     <Compile Include="TeacherModel.cs" />
     <Compile Include="ParentStatus.cs" />
     <Compile Include="Transition.cs" />
+    <Compile Include="TransitionWithdrawal.cs" />
     <Compile Include="Volunteer.cs" />
     <Compile Include="WorkOrder.cs" />
     <Compile Include="Workshop.cs" />
@@ -172,11 +184,9 @@
     <Compile Include="YakkrRouting.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="mssccprj.scc" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FingerprintsModel.csproj.vspscc" />
     <Content Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />

@@ -22,6 +22,7 @@ namespace FingerprintsModel
         public string Guardian { get; set; }
         public string ProgramType { get; set; }
         public string DaysEnrolled { get; set; }
+        public string ReasonForAcceptance { get; set; }
         public List<ReportingModel> Reportlst { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +19,19 @@ namespace FingerprintsModel
         }
         public class Users
         {
+            //public Users()
+            //{
+            //    this.Clientlist = new List<RosterNew.User>();
+            //    this.UserList = new List<RosterNew.User>();
+            //}
+            public List<User> SecurityRolesList { get; set; }
             public List<User> Clientlist { get; set; }
             public List<User> UserList { get; set; }
         }
 
         public class CaseNote
         {
+       
             public string ClientId { get; set; }
             public string CenterId { get; set; }
             public string HouseHoldId { get; set; }
@@ -31,10 +39,19 @@ namespace FingerprintsModel
             public string ProgramId { get; set; }
             public string ClientIds { get; set; }
             public string StaffIds { get; set; }
+
+            [Display(Name ="Date")]
             public string CaseNoteDate { get; set; }
+
+            [Display(Name ="Title")]
             public string CaseNotetitle { get; set; }
+
+            [Display(Name ="Tags")]
             public string CaseNotetags { get; set; }
+            [Display(Name = "Note")]
             public string Note { get; set; }
+
+            [Display(Name = "Secure Note Level?")]
             public bool CaseNoteSecurity { get; set; }
             public string Classroomid { get; set; }
             public bool IsLateArrival { get; set; }
@@ -50,7 +67,9 @@ namespace FingerprintsModel
             public string[] AttachmentIdArray { get; set; }
 
 
+
         }
+       
 
         public class ClientUsers
         {
@@ -61,6 +80,15 @@ namespace FingerprintsModel
 
             public HttpPostedFileBase file { get; set; }
         }
+    }
+    public class InternalRefferalCaseNote
+    {
+        public RosterNew.CaseNote CaseNote { get; set; }
+        public string ReferredBy { get; set; }
+        public string CenterName { get; set; }
+        public string ClassroomName { get; set; }
+        public string RoleName { get; set; }
+
     }
     public class REF
     {
@@ -84,6 +112,7 @@ namespace FingerprintsModel
         public long? CategoryID { get; set; }
         public bool? IsChild { get; set; }
         public bool? IsFamily { get; set; }
+        public bool IsClient { get; set; }
         public long? HouseHoldId { get; set; }
         public List<REF> refListData { get; set; }
 

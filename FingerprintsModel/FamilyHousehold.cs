@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Web.Mvc;
 
 namespace FingerprintsModel
 {
@@ -14,14 +15,19 @@ namespace FingerprintsModel
         //View Client Details
         public string ClientAssigned { get; set; }
         public List<AssignedTo> ClientAssignedTo = new List<AssignedTo>();
-
+       public int InChildCareSubsidy { get; set; }
         public List<WellBabyExamModel> WellBabyExamModelList = new List<WellBabyExamModel>();
         public List<ClassroomChangeReason> _ChangeReasonList = new List<ClassroomChangeReason>();
+        public int HasFamilyAdvocate { get; set; }
+        public string FamilyAdvocateId { get; set; }
+        public List<SelectListItem> FamilyAdovateList { get; set; }
         public class AssignedTo
         {
             public string Id { get; set; }
             public string Name { get; set; }
         }
+        public bool IsStaffReviewIncome { get; set; }
+
         //Added on 23Dec2016
         public int WorkshopId { get; set; }
         public string WorkshopDate { get; set; }
@@ -65,6 +71,11 @@ namespace FingerprintsModel
         public bool? IsEmergency { get; set; }
         //
         public List<FamilyHousehold> getList { get; set; }
+
+        public bool IsFutureWithdrawal { get; set; }
+
+        public bool IsFutureWithdrawal1 { get; set; }
+
         public calculateincome calcualteincome { get; set; }
         public string AmountNo { get; set; }
         public string DocumentDesc { get; set; }
@@ -73,7 +84,11 @@ namespace FingerprintsModel
         public string GenderParent2 { get; set; }
         public string Gender { get; set; }
         public string Yakkr { get; set; }
+
+        public string Yakkr1 { get; set; }
         public string EncryptedName { get; set; }
+
+        [Display(Name ="Married?")]
         public string Married { get; set; }
         public string Returned { get; set; }
         public int RequestAllowed { get; set; }
@@ -90,14 +105,27 @@ namespace FingerprintsModel
         public string StaffId { get; set; }
         public string YakkrId { get; set; }
         public Int32 StreetID { get; set; }
+
+        [Display(Name ="Address")]
         public string Street { get; set; }
         public string County { get; set; }
+
+        [Display(Name = "Apartment No., Lot No. ")]
         public string StreetName { get; set; }
         public string Apartmentno { get; set; }
+
+        [Display(Name ="Zip Code")]
         public string ZipCode { get; set; }
+
+        [Display(Name ="City")]
         public string City { get; set; }
+
+        [Display(Name ="State")]
         public string State { get; set; }
+        [Display(Name ="County")]
         public string Country { get; set; }
+
+
         public bool AdresssverificationinPaper { get; set; }
         public byte[] HImageByte { get; set; }
         public string HFileName { get; set; }
@@ -107,13 +135,19 @@ namespace FingerprintsModel
         public string nationality { get; set; }
         public string PrimaryLanguauge { get; set; }
         public Int32 FamilyHouseholdID { get; set; }
+
+        [Display(Name ="Family Type")]
         public int FamilyType { get; set; }
         public bool TANF { get; set; }
         public bool SSI { get; set; }
         public bool NONE { get; set; }
         public bool WIC { get; set; }
         public bool SNAP { get; set; }
+
+        [Display(Name = "Is family Homeless at this time?")]
         public int HomeType { get; set; }
+
+        [Display(Name ="Rent Type")]
         public int RentType { get; set; }
         public string RentTypetext { get; set; }
         public int Interpretor { get; set; }
@@ -131,15 +165,26 @@ namespace FingerprintsModel
         public string CreatedOn { get; set; }
         public int SchoolDistrict { get; set; }
         public string OtherLanguageDetail { get; set; }
+
+        [Display(Name = "Parent Relationship")]
         public int ParentRelatioship { get; set; }
+
+        [Display(Name = "Other Relationship")]
         public string ParentRelatioshipOther { get; set; }
         public string Povertypercentage { get; set; }
         public int docstorage { get; set; }
         public int Phonecount { get; set; }
+
+        [Display(Name = "Does family have any address?")]
+        public int FamilyHasAddress { get; set; }
+
         public DataTable customscreening { get; set; }
         //Parent Details 1
         public Int32 Parent { get; set; }
         public Int32 ParentID { get; set; }
+        public string ProgramTypeID { get; set; }
+        public string ProgramTypeID1 { get; set; }
+
         public HttpPostedFileBase PAvatar { get; set; }
         public string PAvatarUrl { get; set; }
         public string Pfirstname { get; set; }
@@ -156,6 +201,9 @@ namespace FingerprintsModel
         public string PGender { get; set; }
         public int PMilitaryStatus { get; set; }
         public string PEnrollment { get; set; }
+        public string PEnrollmentFinished { get; set; }
+        public string PEnrollmentFinished1 { get; set; }
+        public string PEnrollment1 { get; set; }
         public string PCurrentlyWorking { get; set; }
         public string PPolicyCouncil { get; set; }
         public string PDegreeEarned { get; set; }
@@ -362,6 +410,8 @@ namespace FingerprintsModel
         public int EnrolledChild { get; set; }
         public int IsPreg { get; set; }
         public bool Pregnantmotherenrolled { get; set; }
+
+        public bool IsFutureIntakePregEnrolled { get; set; }
         public int Pregnantmotherprimaryinsurance { get; set; }
         public string Pregnantmotherprimaryinsurancenotes { get; set; }
         public int totalhousehold { get; set; }
@@ -381,11 +431,18 @@ namespace FingerprintsModel
         public int EnrolledChild1 { get; set; }
         public int IsPreg1 { get; set; }
         public bool PregnantmotherenrolledP1 { get; set; }
+
+        public bool IsFutureIntakePregEnrolled1 { get; set; }
         public int Pregnantmotherprimaryinsurance1 { get; set; }
         public string Pregnantmotherprimaryinsurancenotes1 { get; set; }
         public List<calculateincome> Income1 { get; set; }
         public List<calculateincome1> Income2 { get; set; }
         public List<Programdetail> AvailableProgram { get; set; }
+
+        public bool AllowFutureApplication { get; set; }
+        public bool AllowCurrentYearApplication { get; set; }
+        public bool IsFutureApplication { get; set; }
+        public string FutureProgramYear { get; set; }
         public List<Programdetail> SelectedProgram { get; set; }
         public PostedProgram PostedPostedPrograms { get; set; }
         public List<SelectPoints.CustomQuestion> CustomQues = new List<SelectPoints.CustomQuestion>();
@@ -629,12 +686,15 @@ namespace FingerprintsModel
             public int HealthReview { get; set; }
             public int HealthReviewAllowed { get; set; }
             public bool HealthReviewPm { get; set; }
+
+            public bool IsFutureIntake { get; set; }
         }
         public class Applicationnotes
         {
             public string Name { get; set; }
             public string notes { get; set; }
             public string CreatedOn { get; set; }
+          
         }
 
         public class ImmunizationRecord
@@ -1098,6 +1158,8 @@ namespace FingerprintsModel
         public string PMCondtnDesc { get; set; }
         public bool PMRisk { get; set; }
         public int PMDentalExam { get; set; }
+
+        public bool PMDentalEntered { get; set; }
         public string PMDentalExamDate { get; set; }
         public int PMNeedDental { get; set; }
         public int PMRecieveDental { get; set; }
@@ -1228,6 +1290,8 @@ namespace FingerprintsModel
     {
         public DataTable CustomScreenings { get; set; }
 
+        public Screening screening { get; set; }
+
     }
     public class CustomScreeningAllowed
     {
@@ -1236,7 +1300,7 @@ namespace FingerprintsModel
         public string ScreeningAllowed { get; set; }
 
     }
-
+   
     public class WellBabyExamModel
     {
         public string Month { get; set; }

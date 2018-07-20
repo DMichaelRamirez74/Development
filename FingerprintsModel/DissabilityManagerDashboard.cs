@@ -29,6 +29,7 @@ namespace FingerprintsModel
         public string Pending { get; set; }
         public string Qualified { get; set; }
         public string Released { get; set; }
+        public string Completed { get; set; }
         public List<DisablilityType> disabilitytype { get; set; }
         public string EFileName { get; set; }
         public string EFileExtension { get; set; }
@@ -38,10 +39,20 @@ namespace FingerprintsModel
 
 
     }
+    public class DisabilityCumulative
+    {
+
+        public int TotalCumulativeClient { get; set; }
+        public int TotalActiveClient { get; set; }
+        public double TotalCumulativePercent { get; set; }
+        public double TotalAcivePercent { get; set; }
+    }
 
     public class DisablilityType
     {
         public int Id { get; set; }
+        public bool IsChecked { get; set; }
         public string DisabilityType { get; set; }
+        public int PrimaryTypeId { get; set; }
     }
 }

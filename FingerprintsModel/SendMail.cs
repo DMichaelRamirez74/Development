@@ -18,6 +18,8 @@ namespace FingerprintsModel
         static string subject = string.Empty;
         static string footer = string.Empty;
         static string body = string.Empty;
+
+
         public static string SendEmail(string Emailid, string Password, string username, string path, string imagepath, string link = "", string code = "", string SuperAdmin = "")
         {
             try
@@ -234,7 +236,6 @@ namespace FingerprintsModel
 
             }
         }
-
         public static string SendEventChangedEmail(string EmailId, string template, string FromEmail)
         {
             try
@@ -449,8 +450,6 @@ namespace FingerprintsModel
 
             }
         }
-
-
         public static string SendEmail(string Emailid, string username, string agencyname, string path, string imagepath, string link = "")
         {
             try
@@ -611,14 +610,15 @@ namespace FingerprintsModel
                 return false;
             }
         }
-        public static string SendEmailForSlotsPurchase( string useremail,string UName, int slots, string path, string imagepath,List<string> ToAddress)
+        public static string SendEmailForSlotsPurchase(AddSlotsEmail slotmail, string path, string imagepath)
         {
             try
             {
+                string UserbodyContent = string.Empty;
+                UserbodyContent = slotmail.Body;
                 string ToEmailid = Convert.ToString(ConfigurationManager.AppSettings["FinancialManagerEmailID"]);
 
                 MailMessage Message = new MailMessage(Convert.ToString(ConfigurationManager.AppSettings["FromAddress"]), ToEmailid);
-               
                     xmlDoc.Load(path + "\\PurchaseSlots.xml");
                     xmlnode = xmlDoc.GetElementsByTagName("Subject");
                     subject = xmlnode[0].InnerXml;
@@ -626,13 +626,58 @@ namespace FingerprintsModel
                     footer = xmlnode[0].InnerXml;
                     xmlnode = xmlDoc.GetElementsByTagName("Body");
                     body = xmlnode[0].InnerXml;
-                string toaddrs=  string.Join(",", ToAddress);
-                Message.Body = body.Replace("$AgencyName$", UName.TrimEnd().TrimStart()).Replace("$useremail$", useremail.TrimEnd().TrimStart()).Replace("$slots$", Convert.ToString(slots)).Replace("$ExeEmail$", toaddrs.TrimEnd().TrimStart());
-                    //Message.Body = "Hi Greetings, <br/><br/>You Password has been changed successfully. <br/><br/> Your login credentials <br/><br/> " +
-                    // " Username (Email): " + Emailid + "<br/><br/>Password: " + Password + "<br /><br />Thank You.";
-                
-                //Message.Subject = "Login details for Genesis Earth";
-                Message.Subject = subject;
+
+                UserbodyContent= UserbodyContent.Replace("[AgencyName]", slotmail.Name.TrimEnd().TrimStart()).Replace("[SlotsCount]", Convert.ToString(slotmail.slots)).Replace("[ExecutiveEmail]", slotmail.ExecutiveEmailList.TrimEnd().TrimStart()).Replace("[SenderName]", slotmail.SenderName.TrimEnd().TrimStart()).Replace("[SenderRole]", slotmail.SenderRole.TrimEnd().TrimStart()).Replace("[SenderPhoneNumber]", slotmail.SenderPhone.TrimEnd().TrimStart()).Replace("$BodyHeading$", slotmail.Subject.TrimEnd().TrimStart());
+                Message.Body = body.Replace("$ReplaceContent$", UserbodyContent).Replace("$SenderName$", slotmail.SenderName.TrimEnd().TrimStart()).Replace("$SenderRole$", slotmail.SenderRole.TrimEnd().TrimStart()).Replace("$SenderPhone$", slotmail.SenderPhone.TrimEnd().TrimStart()).Replace("$BodyHeading$", slotmail.Subject.TrimEnd().TrimStart());
+                Message.Subject = slotmail.Subject;
+                Message.IsBodyHtml = true;
+                SmtpClient Client = new SmtpClient();
+                Client.Host = Convert.ToString(ConfigurationManager.AppSettings["MailServer"]);
+                Client.Port = Convert.ToInt32(ConfigurationManager.AppSettings["MailServerPort"]);
+                NetworkCredential basicCredential = new NetworkCredential(Convert.ToString(ConfigurationManager.AppSettings["MailServerUserName"]), Convert.ToString(ConfigurationManager.AppSettings["MailserverPwd"]));
+                Client.UseDefaultCredentials = true;
+                Client.EnableSsl = ConfigurationManager.AppSettings["EnableSSl"].ToString().ToLower() == "true" ? true : false;
+                Client.Credentials = basicCredential;
+                Client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                Client.Send(Message);
+                return "If the entered email exist an email has been send to the entered email id.";
+
+            }
+            catch (Exception Ex)
+            {
+                return Ex.Message;
+
+            }
+        }
+        public static string SendMailForFacilityIssue(string path, AssignFacilityStaff ToAddressDetails)
+        {
+            try
+            {
+
+                string UserbodyContent = string.Empty;
+                UserbodyContent = ToAddressDetails.Body;
+
+                MailMessage Message = new MailMessage((ToAddressDetails.StaffEmailaddress), ToAddressDetails.ExternalEmailId);
+
+                xmlDoc.Load(path + "\\ExternalFacilityTemplate.xml");
+                xmlnode = xmlDoc.GetElementsByTagName("Subject");
+                subject = xmlnode[0].InnerXml;
+                xmlnode = xmlDoc.GetElementsByTagName("Footer");
+                footer = xmlnode[0].InnerXml;
+                xmlnode = xmlDoc.GetElementsByTagName("Body");
+
+
+                body = xmlnode[0].InnerXml;
+
+
+                UserbodyContent = UserbodyContent.Replace("[User_Description] ", ToAddressDetails.UserDescrption.TrimEnd().TrimStart()).Replace("[ClassroomName]", ToAddressDetails.ClassroomName).Replace("[CenterName]", ToAddressDetails.CenterName).Replace("[StaffPhoneNumber]", ToAddressDetails.StaffContact).Replace("[StaffEmailAddress]", ToAddressDetails.StaffEmailaddress.TrimEnd().TrimStart()).Replace("[StaffName]", ToAddressDetails.StaffName.TrimEnd().TrimStart()).Replace("[CenterAddress]", ToAddressDetails.CenterAddress.TrimEnd().TrimStart()).Replace("[RoleName]", ToAddressDetails.RoleName.TrimEnd().TrimStart()).Replace("[SenderName]", ToAddressDetails.SenderName.TrimEnd().TrimStart()).Replace("[SenderRole]", ToAddressDetails.SenderRole.TrimEnd().TrimStart()).Replace("[SenderPhoneNumber]", ToAddressDetails.SenderPhone.TrimEnd().TrimStart()).Replace("$BodyHeading$", ToAddressDetails.Subject.TrimEnd().TrimStart());
+                Message.Body = body.Replace("$ReplaceContent$", UserbodyContent).Replace("$BodyHeading$", ToAddressDetails.Subject.TrimEnd().TrimStart());
+                Message.Subject = ToAddressDetails.Subject;
+
+                //body = xmlnode[0].InnerXml;
+
+                //Message.Body = body.Replace("$userdescrp$", ToAddressDetails.UserDescrption.TrimEnd().TrimStart()).Replace("$classroomname$", ToAddressDetails.ClassroomName).Replace("$centername$", ToAddressDetails.CenterName).Replace("$contactno$", ToAddressDetails.StaffContact).Replace("$emailaddress$", ToAddressDetails.StaffEmailaddress.TrimEnd().TrimStart()).Replace("$Name$", ToAddressDetails.StaffName.TrimEnd().TrimStart()).Replace("$centeraddress$", ToAddressDetails.CenterAddress.TrimEnd().TrimStart()).Replace("$RoleName$", ToAddressDetails.RoleName.TrimEnd().TrimStart());          
+                //Message.Subject = subject;
                 Message.IsBodyHtml = true;
                 SmtpClient Client = new SmtpClient();
                 Client.Host = Convert.ToString(ConfigurationManager.AppSettings["MailServer"]);
@@ -653,6 +698,49 @@ namespace FingerprintsModel
             }
         }
 
+
+        public static string SendMailForQuotation(string path, AssignFacilityStaff ToAddressDetails)
+        {
+            try
+            {
+                string UserbodyContent = string.Empty;
+                UserbodyContent = ToAddressDetails.Body;
+
+                MailMessage Message = new MailMessage((ToAddressDetails.StaffEmailaddress), ToAddressDetails.ExternalEmailId);
+
+                xmlDoc.Load(path + "\\ExternalQuotaion.xml");
+                xmlnode = xmlDoc.GetElementsByTagName("Subject");
+                subject = xmlnode[0].InnerXml;
+                xmlnode = xmlDoc.GetElementsByTagName("Footer");
+                footer = xmlnode[0].InnerXml;
+                xmlnode = xmlDoc.GetElementsByTagName("Body");
+                body = xmlnode[0].InnerXml;
+
+
+                UserbodyContent = UserbodyContent.Replace("[User_Description] ", ToAddressDetails.UserDescrption.TrimEnd().TrimStart()).Replace("[ClassroomName]", ToAddressDetails.ClassroomName).Replace("[CenterName]", ToAddressDetails.CenterName).Replace("[StaffPhoneNumber]", ToAddressDetails.StaffContact).Replace("[StaffEmailAddress]", ToAddressDetails.StaffEmailaddress.TrimEnd().TrimStart()).Replace("[StaffName]", ToAddressDetails.StaffName.TrimEnd().TrimStart()).Replace("[CenterAddress]", ToAddressDetails.CenterAddress.TrimEnd().TrimStart()).Replace("[RoleName]", ToAddressDetails.RoleName.TrimEnd().TrimStart()).Replace("[SenderName]", ToAddressDetails.SenderName.TrimEnd().TrimStart()).Replace("[SenderRole]", ToAddressDetails.SenderRole.TrimEnd().TrimStart()).Replace("[SenderPhoneNumber]", ToAddressDetails.SenderPhone.TrimEnd().TrimStart()).Replace("$BodyHeading$", ToAddressDetails.Subject.TrimEnd().TrimStart());
+                Message.Body = body.Replace("$ReplaceContent$", UserbodyContent).Replace("$BodyHeading$", ToAddressDetails.Subject.TrimEnd().TrimStart());
+                Message.Subject = ToAddressDetails.Subject;
+                //   Message.Body = body.Replace("$userdescrp$", ToAddressDetails.UserDescrption.TrimEnd().TrimStart()).Replace("$classroomname$", ToAddressDetails.ClassroomName).Replace("$centername$", ToAddressDetails.CenterName).Replace("$contactno$", ToAddressDetails.StaffContact).Replace("$emailaddress$", ToAddressDetails.StaffEmailaddress.TrimEnd().TrimStart()).Replace("$Name$", ToAddressDetails.StaffName.TrimEnd().TrimStart()).Replace("$centeraddress$", ToAddressDetails.CenterAddress.TrimEnd().TrimStart()).Replace("$RoleName$", ToAddressDetails.RoleName.TrimEnd().TrimStart());
+                // Message.Subject = subject;
+                Message.IsBodyHtml = true;
+                SmtpClient Client = new SmtpClient();
+                Client.Host = Convert.ToString(ConfigurationManager.AppSettings["MailServer"]);
+                Client.Port = Convert.ToInt32(ConfigurationManager.AppSettings["MailServerPort"]);
+                NetworkCredential basicCredential = new NetworkCredential(Convert.ToString(ConfigurationManager.AppSettings["MailServerUserName"]), Convert.ToString(ConfigurationManager.AppSettings["MailserverPwd"]));
+                Client.UseDefaultCredentials = true;
+                Client.EnableSsl = ConfigurationManager.AppSettings["EnableSSl"].ToString().ToLower() == "true" ? true : false;
+                Client.Credentials = basicCredential;
+                Client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                Client.Send(Message);
+                return "If the entered email exist an email has been send to the entered email id.";
+
+            }
+            catch (Exception Ex)
+            {
+                return Ex.Message;
+
+            }
+        }
 
     }
 }

@@ -11,6 +11,9 @@ namespace FingerprintsModel
 {
     public class Nurse
     {
+        public bool IsAllowIncome { get; set; }
+        public string IsFinalReviwer { get; set; }
+        public FamilyHousehold FamilyHousehold = new FamilyHousehold();
         public string CAge { get; set; }
         public int SingleParent { get; set; }
         public int TwoParent { get; set; }
@@ -98,7 +101,8 @@ namespace FingerprintsModel
             public string AcceptApplicant { get; set; }
             public string AcceptReason { get; set; }
         public string RejectDesc { get; set; }
-            public int HealthReview { get; set; }
+        public string AcceptDesc { get; set; }
+        public int HealthReview { get; set; }
             public List<Nurse> getList { get; set; }
             public calculateincome calcualteincome { get; set; }
             public string AmountNo { get; set; }

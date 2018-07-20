@@ -246,6 +246,8 @@ namespace FingerprintsModel
 
         public int RequestedPage { get; set; }
 
+        public long ClassRoomId { get; set; }
+
 
     }
 
